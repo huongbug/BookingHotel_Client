@@ -16,7 +16,8 @@ class ProductService {
     return await this.httpService.request(
       "POST",
       `${process.env.REACT_APP_API_URL}/api/v1/product/create`,
-      { body: productCreateDto }
+      { body: productCreateDto },
+      false
     );
   }
 

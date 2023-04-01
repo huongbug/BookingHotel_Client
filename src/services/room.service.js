@@ -23,7 +23,8 @@ class RoomService {
     return await this.httpService.request(
       "POST",
       `${process.env.REACT_APP_API_URL}/api/v1/room/create`,
-      { body: roomCreateDTO }
+      { body: roomCreateDTO },
+      false
     );
   }
 
@@ -34,11 +35,11 @@ class RoomService {
     );
   }
 
-  async updateRoomById(roomUpdateDto, roomId) {
+  async updateRoomById(roomId, updateRoomDto) {
     return await this.httpService.request(
       "PUT",
       `${process.env.REACT_APP_API_URL}/api/v1/room/update/${roomId}`,
-      { body: roomUpdateDto }
+      { body: updateRoomDto }
     );
   }
 

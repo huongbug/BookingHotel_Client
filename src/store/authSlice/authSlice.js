@@ -22,6 +22,13 @@ export const fetchRegister = createAsyncThunk(
   }
 );
 
+export const fetchUpdateSale = createAsyncThunk(
+  "auth/register",
+  async (updateSaleDto, thunkAPI) => {
+    const response = await authService.updateSaleById(updateSaleDto);
+    return response.data;
+  }
+);
 const initialState = {
   entities: [],
   loading: "idle",

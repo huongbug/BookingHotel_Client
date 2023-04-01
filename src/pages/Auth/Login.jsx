@@ -7,6 +7,12 @@ import slider3 from "../../assets/img/hero/hero-3.jpg";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { fetchLogin, fetchRegister } from "../../store/authSlice/authSlice";
+import { setToken } from "../../store/tokenSlice/tokenSlice";
+import { redirect } from "react-router-dom";
+import storageService from "../../services/storage.service";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -21,6 +27,7 @@ const Login = () => {
   const [newGender, setNewGender] = useState("");
   const [newBirthday, setNewBirthday] = useState("");
   const [newAddress, setNewAddress] = useState("");
+  const dispatch = useDispatch();
 
   const signUpButton = () => {
     setIsBounceActive(true);
@@ -28,7 +35,34 @@ const Login = () => {
   const signInButton = () => {
     setIsBounceActive(false);
   };
-  const loginFunc = async () => {};
+  const loginFunc = async () => {
+    const result = await dispatch(
+      fetchLogin({
+        emailOrPhone,
+        password,
+      })
+    )
+      .then(unwrapResult)
+      .then((originalPromiseResult) => {
+        // console.log(originalPromiseResult);
+        const token = originalPromiseResult.data.accessToken;
+        const index = originalPromiseResult.data.authorities.findIndex(
+          (role) => {
+            return role.authority == "ROLE_ADMIN";
+          }
+        );
+        storageService.set("token", token);
+        if (index == "-1") {
+          window.location.href = "/";
+        } else {
+          window.location.href = "/admin/users";
+        }
+      })
+      .catch((rejectedValueOrSerializedError) => {
+        console.log(rejectedValueOrSerializedError);
+        // handle result here
+      });
+  };
   const registerFunc = async () => {
     console.log(
       newEmailOrPhone,
@@ -40,6 +74,28 @@ const Login = () => {
       newBirthday,
       newAddress
     );
+    const result = await dispatch(
+      fetchRegister({
+        email: newEmailOrPhone,
+        password: newPassword,
+        phoneNumber: newPhoneNumber,
+        firstName: newFirstName,
+        lastName: newLastName,
+        gender: newGender,
+        birthday: newBirthday,
+        address: newAddress,
+      })
+    )
+      .then(unwrapResult)
+      .then((originalPromiseResult) => {
+        window.location.href = "/auth/login";
+        console.log(originalPromiseResult);
+        // handle result here
+      })
+      .catch((rejectedValueOrSerializedError) => {
+        console.log(rejectedValueOrSerializedError);
+        // handle result here
+      });
   };
 
   return (

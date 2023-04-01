@@ -7,6 +7,8 @@ import avatar from "../assets/img/avatar.jpg";
 const Header = () => {
   const location = useLocation();
   const pathName = location.pathname;
+  const user = useSelector((state) => state.user.value);
+  console.log(user);
   let isActive = false;
 
   // useEffect(async () => {}, []);
@@ -49,6 +51,7 @@ const Header = () => {
                 <div className="language-option">
                   <img src={avatar} alt="" />
                   <span>
+                    {user?.firstName?.concat(" " + user?.lastName)}{" "}
                     <i className="fa fa-angle-down" />
                   </span>
                   <div style={{ width: "200px" }} className="flag-dropdown">

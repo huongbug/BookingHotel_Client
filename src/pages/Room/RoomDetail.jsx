@@ -6,12 +6,30 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { fetchGetRoom } from "../../store/roomSlice/roomSlice";
 
 const RoomDetail = () => {
   let { roomId } = useParams();
   const dispatch = useDispatch();
 
   const [room, setRoom] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      const result = await dispatch(fetchGetRoom(roomId))
+        .then(unwrapResult)
+        .then((originalPromiseResult) => {
+          setRoom(originalPromiseResult.data);
+          console.log(originalPromiseResult.data);
+        })
+        .catch((rejectedValueOrSerializedError) => {
+          console.log(rejectedValueOrSerializedError);
+          // handle result here
+        });
+    })();
+
+    // return () => {}; // no-op
+  }, [roomId]);
 
   return (
     <div>

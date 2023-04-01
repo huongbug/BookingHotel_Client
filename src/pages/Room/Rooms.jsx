@@ -8,11 +8,37 @@ import room3 from "../../assets/img/room/room-3.jpg";
 import room4 from "../../assets/img/room/room-4.jpg";
 import room5 from "../../assets/img/room/room-5.jpg";
 import room6 from "../../assets/img/room/room-6.jpg";
+import { useDispatch } from "react-redux";
+import {
+  fetchGetRooms,
+  fetchGetAvailableRooms,
+} from "../../store/roomSlice/roomSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Rooms = () => {
+  const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const result = await dispatch(fetchGetAvailableRooms())
+        .then(unwrapResult)
+        .then((originalPromiseResult) => {
+          setRooms(originalPromiseResult.data.items);
+          console.log(originalPromiseResult.data.items);
+          console.log(rooms);
+          // handle result here
+        })
+        .catch((rejectedValueOrSerializedError) => {
+          console.log(rejectedValueOrSerializedError);
+          // handle result here
+        });
+    })();
+
+    // return () => {}; // no-op
+  }, []);
 
   return (
     <div>

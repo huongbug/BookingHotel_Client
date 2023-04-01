@@ -7,7 +7,10 @@ import AboutUs from "../pages/About-us";
 import Blog from "../pages/Blog/Blog";
 import BlogDetail from "../pages/Blog/BlogDetail";
 import RoomDetail from "../pages/Room/RoomDetail";
+import Manage from "../pages/Admin/Manage";
+import AddManage from "../pages/Admin/AddManage";
 import Booking from "../pages/Booking/Booking";
+import UpdateManage from "../pages/Admin/UpdateManage";
 
 const publicRoutes = [
   { path: "/", component: Home },
@@ -20,6 +23,9 @@ const publicRoutes = [
   { path: "/blog", component: Blog },
   // { path: "/auth/login", component: Login },
   { path: "/auth/register", component: Register },
+  { path: "/admin/:option", component: Manage },
+  { path: "/admin/add/:option", component: AddManage },
+  { path: "/admin/update/:option/:optionId", component: UpdateManage },
 ];
 
 const privateRoutes = [];

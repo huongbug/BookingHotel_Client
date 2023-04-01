@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import "./user.scss";
 import avatar from "../../assets/img/avatar.jpg";
+import { useSelector } from "react-redux";
 
 const User = () => {
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [address, setAddress] = useState("");
+  const user = useSelector((state) => state.user.value);
+
+  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(user.phone);
+  const [password, setPassword] = useState(user.password);
+  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [gender, setGender] = useState(user.gender);
+  const [birthday, setBirthday] = useState(user.birthday);
+  const [address, setAddress] = useState(user.address);
+
+  console.log(user);
 
   return (
     <div className="user">
@@ -36,7 +41,7 @@ const User = () => {
                 type="text"
                 className="form-control"
                 id="validationDefaultUsername"
-                value={email}
+                value={email ? email : user.email}
                 aria-describedby="inputGroupPrepend2"
                 required
               />
@@ -48,7 +53,7 @@ const User = () => {
               type="text"
               className="form-control"
               id="validationDefault02"
-              value={phoneNumber}
+              value={phoneNumber ? phoneNumber : user.phoneNumber}
               required
             />
           </div>
@@ -59,7 +64,7 @@ const User = () => {
                 type="text"
                 className="form-control"
                 id="validationDefaultUsername"
-                value={password}
+                value={password ? password : user.password}
                 aria-describedby="inputGroupPrepend2"
                 required
               />
@@ -73,7 +78,7 @@ const User = () => {
               type="text"
               className="form-control"
               id="validationDefault01"
-              value={firstName}
+              value={firstName ? firstName : user.firstName}
               required
             />
           </div>
@@ -83,7 +88,7 @@ const User = () => {
               type="text"
               className="form-control"
               id="validationDefault02"
-              value={lastName}
+              value={lastName ? lastName : user.lastName}
               required
             />
           </div>
@@ -94,7 +99,7 @@ const User = () => {
                 type="text"
                 className="form-control"
                 id="validationDefaultUsername"
-                value={gender}
+                value={gender ? gender : user.gender}
                 aria-describedby="inputGroupPrepend2"
                 required
               />
@@ -108,7 +113,7 @@ const User = () => {
               type="text"
               className="form-control"
               id="validationDefault03"
-              value={address}
+              value={address ? address : user.address}
               required
             />
           </div>
@@ -118,7 +123,7 @@ const User = () => {
               type="date"
               className="form-control"
               id="validationDefault04"
-              value={birthday}
+              value={birthday ? birthday : user.birthday}
               required
             />
           </div>

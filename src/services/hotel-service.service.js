@@ -16,7 +16,8 @@ class HotelServiceService {
     return await this.httpService.request(
       "POST",
       `${process.env.REACT_APP_API_URL}/api/v1/service/create`,
-      { body: serviceCreateDto }
+      { body: serviceCreateDto },
+      false
     );
   }
 

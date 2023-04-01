@@ -19,6 +19,22 @@ class UserService {
     );
   }
 
+  async getUserById(userId) {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/user/${userId}`
+    );
+  }
+
+  async updateUserById(userId, updateUserDto) {
+    console.log(userId, updateUserDto);
+    return await this.httpService.request(
+      "PATCH",
+      `${process.env.REACT_APP_API_URL}/api/v1/user/${userId}`,
+      { body: updateUserDto }
+    );
+  }
+
   async register(authCredential) {
     return await this.httpService.request(
       "POST",
