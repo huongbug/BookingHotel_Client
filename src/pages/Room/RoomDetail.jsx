@@ -2,7 +2,7 @@ import Title from "../../components/Title";
 import roomDetail from "../../assets/img/room/room-details.jpg";
 import reviewer from "../../assets/img/room/avatar/avatar-1.jpg";
 import Header from "../../components/Header";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -42,7 +42,11 @@ const RoomDetail = () => {
           <div className="row">
             <div className="col-lg-8">
               <div className="room-details-item">
-                <img src={roomDetail} alt="" />
+                <img
+                  style={{ width: "100%", height: "450px" }}
+                  src={room && room.medias?.[0]?.url}
+                  alt=""
+                />
                 <div className="rd-text">
                   <div className="rd-title">
                     <h3>{room.title}</h3>
@@ -54,7 +58,7 @@ const RoomDetail = () => {
                         <i className="icon_star" />
                         <i className="icon_star-half_alt" />
                       </div>
-                      <a href="#">Booking Now</a>
+                      <Link to="/booking">Booking Now</Link>
                     </div>
                   </div>
                   <h2>
@@ -174,17 +178,20 @@ const RoomDetail = () => {
                   </div>
                   <div style={{ width: "100%" }} className="select-option">
                     <label htmlFor="guest">Guests:</label>
-                    <select id="guest">
-                      <option value="">3 Adults</option>
+                    <select
+                      style={{ width: "100%", height: "50px" }}
+                      id="guest"
+                    >
+                      <option defaultValue={1}>1 person</option>
+                      <option defaultValue={2}>2 persons</option>
+                      <option defaultValue={3}>3 persons</option>
+                      <option defaultValue={4}>4 persons</option>
+                      <option defaultValue={5}>5 persons</option>
+                      <option defaultValue={6}>6 persons</option>
+                      <option defaultValue={7}>7 persons</option>
                     </select>
                   </div>
-                  <div className="select-option">
-                    <label htmlFor="room">Room:</label>
-                    <select id="room">
-                      <option value="">1 Room</option>
-                    </select>
-                  </div>
-                  <button type="submit">Check Availability</button>
+                  <button type="button">Check Availability</button>
                 </form>
               </div>
             </div>

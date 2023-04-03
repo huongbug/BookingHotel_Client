@@ -8,30 +8,54 @@ const initialState = {
 };
 
 export const fetchGetUsers = createAsyncThunk("/user", async (thunkAPI) => {
-  const response = await userService.getUsers();
-  return response.data;
+  try {
+    const response = await userService.getUsers();
+    return response.data;
+  } catch (err) {
+    return err.response.data;
+  }
 });
 
 export const fetchGetUser = createAsyncThunk(
   "/user",
   async (userId, thunkAPI) => {
-    const response = await userService.getUserById(userId);
-    return response.data;
+    try {
+      const response = await userService.getUserById(userId);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
 );
 
 export const fetchUpdateUser = createAsyncThunk(
   "/user",
   async ({ userId, updateUserDto }, thunkAPI) => {
-    const response = await userService.updateUserById(userId, updateUserDto);
-    return response.data;
+    try {
+      const response = await userService.updateUserById(userId, updateUserDto);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
 );
 
 export const fetchGetCurrentUser = createAsyncThunk(
   "/user",
   async (thunkAPI) => {
-    const response = await userService.getCurrentUser();
+    try {
+      const response = await userService.getCurrentUser();
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
+export const fetchDeleteUser = createAsyncThunk(
+  "user",
+  async (userId, thunkAPI) => {
+    const response = await userService.deleteUserById(userId);
     return response.data;
   }
 );

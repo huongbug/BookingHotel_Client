@@ -5,10 +5,22 @@ class RoomService {
     this.httpService = new HttpService();
   }
 
-  async getAvailableRooms() {
+  async getAvailableRooms(expectedCheckIn, expectedCheckOut, num, type) {
+    console.log(expectedCheckIn, expectedCheckOut, num, type);
+    console.log();
     return await this.httpService.request(
       "GET",
-      `${process.env.REACT_APP_API_URL}/api/v1/room/available`
+      `${process.env.REACT_APP_API_URL}/api/v1/room/available`,
+      {
+        params: {
+          checkin: expectedCheckIn,
+          checkout: expectedCheckOut,
+          maxNum: num,
+          roomType: type,
+          // roomType: "",
+        },
+      }
+      // ?checkin=${expectedCheckIn}&checkout=${expectedCheckOut}&roomType=${type}&maxNum=${num}
     );
   }
 
@@ -39,7 +51,8 @@ class RoomService {
     return await this.httpService.request(
       "PUT",
       `${process.env.REACT_APP_API_URL}/api/v1/room/update/${roomId}`,
-      { body: updateRoomDto }
+      { body: updateRoomDto },
+      false
     );
   }
 

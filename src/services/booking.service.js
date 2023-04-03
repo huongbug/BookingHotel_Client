@@ -5,10 +5,24 @@ class BookingService {
     this.httpService = new HttpService();
   }
 
+  async getBookingsAdmin() {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/booking/admin`
+    );
+  }
+
   async getBookings() {
     return await this.httpService.request(
       "GET",
       `${process.env.REACT_APP_API_URL}/api/v1/booking`
+    );
+  }
+
+  async getBookingsUser() {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/booking/user`
     );
   }
 

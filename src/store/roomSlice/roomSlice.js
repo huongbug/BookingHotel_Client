@@ -7,38 +7,76 @@ const roomService = new RoomService();
 
 // First, create the thunk
 export const fetchGetRooms = createAsyncThunk("/rooms", async (thunkAPI) => {
-  const response = await roomService.getRooms();
-  return response.data;
+  try {
+    const response = await roomService.getRooms();
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return err.response;
+  }
 });
 
 export const fetchGetAvailableRooms = createAsyncThunk(
   "/rooms",
-  async (thunkAPI) => {
-    const response = await roomService.getAvailableRooms();
-    return response.data;
+  async ({ expectedCheckIn, expectedCheckOut, num, type }, thunkAPI) => {
+    try {
+      const response = await roomService.getAvailableRooms(
+        expectedCheckIn,
+        expectedCheckOut,
+        num,
+        type
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
 );
 
 export const fetchGetRoom = createAsyncThunk(
   "room",
   async (roomId, thunkAPI) => {
-    const response = await roomService.getRoomById(roomId);
-    return response.data;
+    try {
+      const response = await roomService.getRoomById(roomId);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
 );
 
 export const fetchCreateRoom = createAsyncThunk(
   "room",
   async (createRoomDto, thunkAPI) => {
-    const response = await roomService.createRoom(createRoomDto);
-    return response.data;
+    try {
+      const response = await roomService.createRoom(createRoomDto);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
 );
 
 export const fetchUpdateRoom = createAsyncThunk(
   "room",
-  async (roomId, updateRoomDto, thunkAPI) => {
-    const response = await roomService.updateRoomById(roomId, updateRoomDto);
+  async ({ roomId, updateRoomDto }, thunkAPI) => {
+    try {
+      const response = await roomService.updateRoomById(roomId, updateRoomDto);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
+  }
+);
+
+export const fetchDeleteRoom = createAsyncThunk(
+  "room",
+  async (roomId, thunkAPI) => {
+    const response = await roomService.deleteRoomById(roomId);
     return response.data;
   }
 );

@@ -16,8 +16,12 @@ import {
 } from "../../store/hotelServiceSlice/hotelServiceSlice";
 import { fetchCreateProduct } from "../../store/productSlice/productSlice";
 import productInterface from "../../interfaces/product.interface";
-import { fetchGetSale } from "../../store/saleSlice/saleSlice";
+import postInterface from "../../interfaces/post.interface";
+import { fetchCreateSale, fetchGetSale } from "../../store/saleSlice/saleSlice";
 import { fetchGetUser } from "../../store/userSlice/userSlice";
+import { fetchCreatePost } from "../../store/postSlice/postSlice";
+import Modal from "../../components/Modal/Modal";
+import salesInterface from "../../interfaces/sales.interface";
 
 const AddUser = () => {
   const dispatch = useDispatch();
@@ -25,6 +29,15 @@ const AddUser = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   let { option, method } = useParams();
+  const [displayModal, setDisplayModal] = useState(false);
+  const [statusModal, setStatusModal] = useState("");
+  const [messageModal, setMessageModal] = useState("");
+
+  const callback = () => {
+    setDisplayModal(false);
+    setStatusModal("");
+    setMessageModal("");
+  };
 
   useEffect(() => {
     if (option == "rooms") {
@@ -33,6 +46,8 @@ const AddUser = () => {
       setKeys([...Object.keys(roomsInterface)]);
       setData({ ...roomsInterface });
     } else if (option == "sales") {
+      delete salesInterface["dayStart"];
+      delete salesInterface["dayEnd"];
       setKeys([...Object.keys(saleInterface)]);
       setData({ ...saleInterface });
       delete saleInterface["id"];
@@ -48,6 +63,10 @@ const AddUser = () => {
       setKeys([...Object.keys(productInterface)]);
       setData({ ...productInterface });
       delete productInterface["id"];
+    } else if (option == "posts") {
+      setKeys([...Object.keys(postInterface)]);
+      setData({ ...postInterface });
+      delete postInterface["id"];
     }
   }, [option]);
 
@@ -63,7 +82,7 @@ const AddUser = () => {
       }
       func = fetchCreateRoom(formData);
     } else if (option == "sales") {
-      func = fetchCreateRoom();
+      func = fetchCreateSale(data);
     } else if (option == "users") {
       func = fetchCreateRoom();
     } else if (option == "services") {
@@ -73,23 +92,36 @@ const AddUser = () => {
       }
       func = fetchCreateHotelServices(formData);
     } else if (option == "products") {
-      func = fetchCreateRoom(formData);
       let formData = new FormData();
       for (let i in data) {
         formData.append(i, data[i]);
       }
       func = fetchCreateProduct(formData);
+    } else if (option == "posts") {
+      let formData = new FormData();
+      for (let i in data) {
+        formData.append(i, data[i]);
+      }
+      func = fetchCreatePost(formData);
     }
     const result = await dispatch(func)
       .then(unwrapResult)
       .then((originalPromiseResult) => {
+        console.log("result", originalPromiseResult);
         if (originalPromiseResult.status == "SUCCESS") {
-          navigate("/admin/" + option);
+          setDisplayModal(true);
+          setStatusModal("success");
+          setMessageModal("Tạo thành công");
+        } else {
+          setDisplayModal(true);
+          setStatusModal("failure");
+          setMessageModal("Tạo thất bại");
         }
-        console.log(originalPromiseResult);
-        // handle result here
       })
       .catch((rejectedValueOrSerializedError) => {
+        setDisplayModal(true);
+        setStatusModal("failure");
+        setMessageModal("Tạo thất bại");
         console.log(rejectedValueOrSerializedError);
         // handle result here
       });
@@ -97,6 +129,16 @@ const AddUser = () => {
 
   return (
     <div className="main-wrapper">
+      <Modal
+        displayModal={displayModal}
+        statusModal={statusModal}
+        messageModal={messageModal}
+        callback={callback}
+        url={"/admin/" + option}
+        // displayStatus="true"
+        // message="Cập nhật thành công"
+        // status="success"
+      />
       <AdminHeader />
       <AdminSIdeBar />
       <div className="page-wrapper">
@@ -201,6 +243,47 @@ const AddUser = () => {
                   </>
                 )}
 
+                {option == "sales" && (
+                  <>
+                    <div className="col-lg-3 col-sm-6 col-12">
+                      <div className="form-group">
+                        <label>dayStart</label>
+                        <input
+                          style={{
+                            width: "100%",
+                            padding: "6px",
+                          }}
+                          type="datetime-local"
+                          onChange={(e) => {
+                            setData((prevState) => {
+                              prevState["dayStart"] = e.target.value;
+                              return prevState;
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-lg-3 col-sm-6 col-12">
+                      <div className="form-group">
+                        <label>dayEnd</label>
+                        <input
+                          style={{
+                            width: "100%",
+                            padding: "6px",
+                          }}
+                          type="datetime-local"
+                          onChange={(e) => {
+                            setData((prevState) => {
+                              prevState["dayEnd"] = e.target.value;
+                              return prevState;
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 {(option == "products" || option == "services") && (
                   <>
                     <div className="col-lg-12">
@@ -217,6 +300,30 @@ const AddUser = () => {
                             onChange={(e) => {
                               setData((prevState) => {
                                 prevState["thumbnailFile"] = e.target.files[0];
+                                return prevState;
+                              });
+                            }}
+                          />
+                          <div className="image-uploads">
+                            <img src="assets/img/icons/upload.svg" alt="img" />
+                            <h4>Drag and drop a file to upload</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {option == "posts" && (
+                  <>
+                    <div className="col-lg-12">
+                      <div className="form-group">
+                        <label>Post Image</label>
+                        <div className="image-upload">
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              setData((prevState) => {
+                                prevState["files"] = e.target.files[0];
                                 return prevState;
                               });
                             }}

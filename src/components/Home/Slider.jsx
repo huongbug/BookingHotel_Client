@@ -5,6 +5,7 @@ import slider3 from "../../assets/img/hero/hero-3.jpg";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { Link } from "react-router-dom";
 
 // import "./owl.css";
 
@@ -20,9 +21,9 @@ const Slider = () => {
                 Here are the best hotel booking sites, including recommendations
                 for international travel and for finding low-priced hotel rooms.
               </p>
-              <a href="#" className="primary-btn">
-                Discover Now
-              </a>
+              <Link className="primary-btn">Discover Now</Link>
+              {/* <a href="#">
+              </a> */}
             </div>
           </div>
           <div className="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
@@ -39,21 +40,19 @@ const Slider = () => {
                   <input type="text" className="date-input" id="date-out" />
                   <i className="icon_calendar" />
                 </div>
-                <div className="select-option">
+                <div style={{ width: "100%" }} className="select-option">
                   <label htmlFor="guest">Guests:</label>
-                  <select id="guest">
-                    <option value="">2 Adults</option>
-                    <option value="">3 Adults</option>
+                  <select style={{ width: "100%", height: "50px" }} id="guest">
+                    <option defaultValue={1}>1 person</option>
+                    <option defaultValue={2}>2 persons</option>
+                    <option defaultValue={3}>3 persons</option>
+                    <option defaultValue={4}>4 persons</option>
+                    <option defaultValue={5}>5 persons</option>
+                    <option defaultValue={6}>6 persons</option>
+                    <option defaultValue={7}>7 persons</option>
                   </select>
                 </div>
-                <div className="select-option">
-                  <label htmlFor="room">Room:</label>
-                  <select id="room">
-                    <option value="">1 Room</option>
-                    <option value="">2 Room</option>
-                  </select>
-                </div>
-                <button type="submit">Check Availability</button>
+                <button type="button">Check Availability</button>
               </form>
             </div>
           </div>

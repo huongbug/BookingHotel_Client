@@ -30,8 +30,15 @@ class UserService {
     console.log(userId, updateUserDto);
     return await this.httpService.request(
       "PATCH",
-      `${process.env.REACT_APP_API_URL}/api/v1/user/${userId}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/user/update/${userId}`,
       { body: updateUserDto }
+    );
+  }
+
+  async deleteUserById(userId) {
+    return await this.httpService.request(
+      "DELETE",
+      `${process.env.REACT_APP_API_URL}/api/v1/user/delete/${userId}`
     );
   }
 

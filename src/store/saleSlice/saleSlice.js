@@ -14,15 +14,56 @@ export const fetchGetSales = createAsyncThunk("/sales", async (thunkAPI) => {
 export const fetchGetAvailableSales = createAsyncThunk(
   "/sales",
   async (thunkAPI) => {
-    const response = await saleService.getAvailableSales();
-    return response.data;
+    try {
+      const response = await saleService.getAvailableSales();
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
 );
 
 export const fetchGetSale = createAsyncThunk(
   "sale",
   async (saleId, thunkAPI) => {
-    const response = await saleService.getSaleById(saleId);
+    try {
+      const response = await saleService.getSaleById(saleId);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
+export const fetchCreateSale = createAsyncThunk(
+  "room",
+  async (createSaleDto, thunkAPI) => {
+    try {
+      const response = await saleService.createSale(createSaleDto);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
+  }
+);
+
+export const fetchUpdateSale = createAsyncThunk(
+  "sale",
+  async ({ saleId, updateSaleDto }, thunkAPI) => {
+    try {
+      const response = await saleService.updateSaleById(saleId, updateSaleDto);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
+export const fetchDeleteSale = createAsyncThunk(
+  "sale",
+  async (saleId, thunkAPI) => {
+    const response = await saleService.deleteSaleById(saleId);
     return response.data;
   }
 );

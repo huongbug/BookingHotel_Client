@@ -4,21 +4,20 @@ import logo from "../assets/img/logo.png";
 import avatar from "../assets/img/avatar.jpg";
 import logout from "../assets/img/admin/log-out.png";
 import { Link } from "react-router-dom";
+import storageService from "../services/storage.service";
 
 const AdminHeader = () => {
   const [isBlock, setIsBlock] = useState(false);
   const user = useSelector((state) => state.user.value);
-  // console.log(user);
   return (
     <div className="header">
       <div className="header-left active">
-        <a href="index.html" className="logo">
+        <Link className="logo" to="/">
           <img src={logo} alt="" />
-        </a>
-        <a href="index.html" className="logo-small">
+        </Link>
+        <Link className="logo-small" to="/">
           <img src={logo} alt="" />
-        </a>
-        <a id="toggle_btn" href="javascript:void(0);"></a>
+        </Link>
       </div>
       <a id="mobile_btn" className="mobile_btn" href="#sidebar">
         <span className="bar-icon">
@@ -54,7 +53,7 @@ const AdminHeader = () => {
                   <span className="status online" />
                 </span>
                 <div className="profilesets">
-                  <h6>John Doe</h6>
+                  <h6>{user?.firstName?.concat(" " + user?.lastName)}</h6>
                   <h5>Admin</h5>
                 </div>
               </div>
@@ -68,10 +67,17 @@ const AdminHeader = () => {
                 Settings
               </a>
               <hr className="m-0" />
-              <a className="dropdown-item logout pb-0" href="signin.html">
+              <div
+                className="dropdown-item logout pb-0"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  storageService.remove("token");
+                  window.location.href = "/auth/login";
+                }}
+              >
                 <img src={logout} className="me-2" alt="img" />
                 Logout
-              </a>
+              </div>
             </div>
           </div>
         </li>

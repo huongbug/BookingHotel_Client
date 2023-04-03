@@ -9,24 +9,39 @@ const authService = new AuthService();
 export const fetchLogin = createAsyncThunk(
   "auth/login",
   async (authCredentialDto, thunkAPI) => {
-    const response = await authService.login(authCredentialDto);
-    return response.data;
+    try {
+      const response = await authService.login(authCredentialDto);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
 );
 
 export const fetchRegister = createAsyncThunk(
   "auth/register",
   async (authCredentialDto, thunkAPI) => {
-    const response = await authService.register(authCredentialDto);
-    return response.data;
+    try {
+      const response = await authService.register(authCredentialDto);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
 );
 
 export const fetchUpdateSale = createAsyncThunk(
   "auth/register",
   async (updateSaleDto, thunkAPI) => {
-    const response = await authService.updateSaleById(updateSaleDto);
-    return response.data;
+    try {
+      const response = await authService.updateSaleById(updateSaleDto);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
 );
 const initialState = {

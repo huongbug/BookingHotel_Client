@@ -8,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./pages/Auth/Login";
-import { publicRoutes } from "./routers/router";
+import { privateRoutes, publicRoutes } from "./routers/router";
 import storageService from "./services/storage.service";
 import { fetchGetCurrentUser, setuser } from "./store/userSlice/userSlice";
 
@@ -38,6 +38,17 @@ function App() {
         <Routes>
           <Route path="/auth/login" element={<Login />} />
           {publicRoutes.map((route, index) => {
+            const Layout = route.component;
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={<Layout />}
+                // element={<Layout />}
+              />
+            );
+          })}
+          {privateRoutes.map((route, index) => {
             const Layout = route.component;
             return (
               <Route

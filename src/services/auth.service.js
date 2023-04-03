@@ -17,7 +17,8 @@ class AuthService {
     return await this.httpService.request(
       "POST",
       `${process.env.REACT_APP_API_URL}/api/v1/auth/signup`,
-      { body: authCredential }
+      { body: authCredential },
+      false
     );
   }
 }

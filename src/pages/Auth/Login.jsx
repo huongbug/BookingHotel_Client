@@ -13,6 +13,8 @@ import { fetchLogin, fetchRegister } from "../../store/authSlice/authSlice";
 import { setToken } from "../../store/tokenSlice/tokenSlice";
 import { redirect } from "react-router-dom";
 import storageService from "../../services/storage.service";
+import Modal from "../../components/Modal/Modal";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -34,6 +36,14 @@ const Login = () => {
   };
   const signInButton = () => {
     setIsBounceActive(false);
+  };
+  const [displayModal, setDisplayModal] = useState(false);
+  const [statusModal, setStatusModal] = useState("");
+  const [messageModal, setMessageModal] = useState("");
+  const callback = () => {
+    setDisplayModal(false);
+    setStatusModal("");
+    setMessageModal("");
   };
   const loginFunc = async () => {
     const result = await dispatch(
@@ -74,22 +84,25 @@ const Login = () => {
       newBirthday,
       newAddress
     );
-    const result = await dispatch(
-      fetchRegister({
-        email: newEmailOrPhone,
-        password: newPassword,
-        phoneNumber: newPhoneNumber,
-        firstName: newFirstName,
-        lastName: newLastName,
-        gender: newGender,
-        birthday: newBirthday,
-        address: newAddress,
-      })
-    )
+    const formData = new FormData();
+    formData.append("email", newEmailOrPhone);
+    formData.append("password", newPassword);
+    formData.append("phoneNumber", newPhoneNumber);
+    formData.append("firstName", newFirstName);
+    formData.append("lastName", newLastName);
+    formData.append("gender", newGender);
+    formData.append("birthday", newBirthday);
+    formData.append("address", newAddress);
+    const result = await dispatch(fetchRegister(formData))
       .then(unwrapResult)
       .then((originalPromiseResult) => {
-        window.location.href = "/auth/login";
-        console.log(originalPromiseResult);
+        // window.location.href = "/auth/login";
+        console.log("result", originalPromiseResult);
+        if (originalPromiseResult.status == "SUCCESS") {
+          Swal.fire("Đăng ký thành công", "", "success");
+        } else {
+          Swal.fire("Có lỗi xảy ra", "", "error");
+        }
         // handle result here
       })
       .catch((rejectedValueOrSerializedError) => {
@@ -100,6 +113,16 @@ const Login = () => {
 
   return (
     <section className="login">
+      {/* <Modal
+        displayModal={displayModal}
+        statusModal={statusModal}
+        messageModal={messageModal}
+        callback={callback}
+        url="/auth/login"
+        // displayStatus="true"
+        // message="Cập nhật thành công"
+        // status="success"
+      /> */}
       <OwlCarousel
         style={{ position: "absolute", top: "0" }}
         className="owl-main hero-slider"
@@ -164,7 +187,7 @@ const Login = () => {
                 <fieldset className="forms_fieldset">
                   <div className="forms_field">
                     <input
-                      type="email"
+                      type="text"
                       placeholder="Email"
                       className="forms_field-input"
                       required=""

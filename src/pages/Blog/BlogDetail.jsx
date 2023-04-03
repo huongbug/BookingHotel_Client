@@ -1,11 +1,36 @@
 import Title from "../../components/Title";
 import Introduction from "../../components/About-us/Introduction";
 import Header from "../../components/Header";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
+import { fetchGetPost } from "../../store/postSlice/postSlice";
 
 const BlogDetail = () => {
-  const location = useLocation();
-  console.log(location);
+  let { blogId } = useParams();
+  const dispatch = useDispatch();
+
+  const [blog, setBlog] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      const result = await dispatch(fetchGetPost(blogId))
+        .then(unwrapResult)
+        .then((originalPromiseResult) => {
+          if (originalPromiseResult.data) {
+            setBlog(originalPromiseResult.data);
+            console.log(originalPromiseResult.data);
+          }
+        })
+        .catch((rejectedValueOrSerializedError) => {
+          console.log(rejectedValueOrSerializedError);
+          // handle result here
+        });
+    })();
+
+    // return () => {}; // no-op
+  }, [blogId]);
 
   return (
     <div>
@@ -13,22 +38,25 @@ const BlogDetail = () => {
       {/* Blog Details Hero Section Begin */}
       <section
         className="blog-details-hero set-bg"
-        data-setbg="img/blog/blog-details/blog-details-hero.jpg"
+        style={{ height: "max-content", paddingTop: "0" }}
       >
         <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
               <div className="bd-hero-text">
-                <span>Travel Trip &amp; Camping</span>
-                <h2>
-                  Cdc Issues Health Alert Notice For Travelers To Usa From Hon
-                </h2>
+                <span>Hotel Booking</span>
+                <h2 style={{ color: "black" }}>{blog && blog.title}</h2>
                 <ul>
                   <li className="b-time">
-                    <i className="icon_clock_alt" /> 15th April, 2019
+                    <i className="icon_clock_alt" />
+                    {blog && blog.createdDate}
                   </li>
                   <li>
-                    <i className="icon_profile" /> Kerry Jones
+                    <i className="icon_profile" />
+                    {blog &&
+                      blog.createdBy?.firstName.concat(
+                        " " + blog.createdBy.lastName
+                      )}
                   </li>
                 </ul>
               </div>
@@ -36,85 +64,29 @@ const BlogDetail = () => {
           </div>
         </div>
       </section>
-      {/* Blog Details Hero End */}
-      {/* Blog Details Section Begin */}
       <section className="blog-details-section">
         <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
               <div className="blog-details-text">
                 <div className="bd-title">
-                  <p>
-                    Thinking about overseas adventure travel? Have you put any
-                    thought into the best places to go when it comes to overseas
-                    adventure travel? Nepal is one of the most popular places of
-                    all, when you visit this magical country you will have the
-                    best adventures right there at your doorstep. Only overseas
-                    adventure travel in Nepal will give you these kinds of
-                    opportunities so if this is not on your list of possible
-                    places to visit yet then now is the time to put it on there!
-                  </p>
-                  <p>
-                    In Nepal your overseas adventure travel is going to be
-                    fascinating. You will get to see the Himalayan Mountains and
-                    experience all that the rich Nepalese culture has to offer.
-                    They are an amazing people who have managed to hang on to
-                    their own culture and beliefs longer than most other
-                    countries. When overseas adventure travel takes you to Nepal
-                    you will have the chance to see all of the fantastic and one
-                    of a kind lakes and forests and you can even spend days or
-                    weeks camping out in their forests with a specialized guide.
-                    And the waterfalls in Nepal are to die for, you will never
-                    see anything more gorgeous in your life as their waterfalls!
-                    This should be at the top of your overseas adventure travel
-                    destination list for sure!
-                  </p>
+                  <p></p>
                 </div>
                 <div className="bd-pic">
-                  <div className="bp-item">
-                    <img
-                      src="img/blog/blog-details/blog-details-1.jpg"
-                      alt=""
-                    />
-                  </div>
-                  <div className="bp-item">
-                    <img
-                      src="img/blog/blog-details/blog-details-2.jpg"
-                      alt=""
-                    />
-                  </div>
-                  <div className="bp-item">
-                    <img
-                      src="img/blog/blog-details/blog-details-3.jpg"
-                      alt=""
-                    />
-                  </div>
+                  {blog &&
+                    blog.medias &&
+                    blog.medias.map((media) => {
+                      return (
+                        <div className="bp-item">
+                          <img src={media.url} alt="" />
+                        </div>
+                      );
+                    })}
                 </div>
                 <div className="bd-more-text">
                   <div className="bm-item">
-                    <h4>If you live in New York City</h4>
-                    <p>
-                      You know all about the traffic there. Getting places is
-                      often next to impossible, even with the gazillion yellow
-                      cabs. If you’re like me you often look with envy at those
-                      shiny limousines with their unformed drivers and wish you
-                      could sit in one. Well, you can. New York limo service is
-                      more affordable than you think, whether it’s for Newark
-                      airport transportation, LaGuardia airport transportation,
-                      or to drive wherever you wish to go.
-                    </p>
-                  </div>
-                  <div className="bm-item">
-                    <h4>Every time I hail a cab in New York City</h4>
-                    <p>
-                      I hope I’ll be lucky enough to get one that’s halfway
-                      decent and that the driver actually speaks English. I have
-                      spent many anxious moments wondering if I ever get to my
-                      destination. Or whether I’d get ripped off. Even if all
-                      goes well, I can’t say I can remember many rides in New
-                      York cabs that were very pleasant. And given how much they
-                      cost by now, going with a limo makes ever more sense.
-                    </p>
+                    <h4>Hotel Booking</h4>
+                    <p>{blog && blog.content}</p>
                   </div>
                 </div>
                 <div className="tag-share">
@@ -146,14 +118,11 @@ const BlogDetail = () => {
                   <h4>2 Comments</h4>
                   <div className="single-comment-item first-comment">
                     <div className="sc-author">
-                      <img
-                        src="img/blog/blog-details/avatar/avatar-1.jpg"
-                        alt=""
-                      />
+                      <img src={blog.createdBy?.avatar} alt="" />
                     </div>
                     <div className="sc-text">
                       <span>27 Aug 2019</span>
-                      <h5>Brandon Kelley</h5>
+                      <h5>{blog.createdBy?.firstName}</h5>
                       <p>
                         Neque porro qui squam est, qui dolorem ipsum quia dolor
                         sit amet, consectetur, adipisci velit, sed quia non
@@ -170,10 +139,7 @@ const BlogDetail = () => {
                   </div>
                   <div className="single-comment-item reply-comment">
                     <div className="sc-author">
-                      <img
-                        src="img/blog/blog-details/avatar/avatar-2.jpg"
-                        alt=""
-                      />
+                      <img src={blog.createdBy?.avatar} alt="" />
                     </div>
                     <div className="sc-text">
                       <span>27 Aug 2019</span>
@@ -194,10 +160,7 @@ const BlogDetail = () => {
                   </div>
                   <div className="single-comment-item second-comment ">
                     <div className="sc-author">
-                      <img
-                        src="img/blog/blog-details/avatar/avatar-3.jpg"
-                        alt=""
-                      />
+                      <img src={blog.createdBy?.avatar} alt="" />
                     </div>
                     <div className="sc-text">
                       <span>27 Aug 2019</span>

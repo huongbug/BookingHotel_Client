@@ -9,23 +9,43 @@ const productService = new ProductService();
 export const fetchGetProducts = createAsyncThunk(
   "/products",
   async (thunkAPI) => {
-    const response = await productService.getProducts();
-    return response.data;
+    try {
+      const response = await productService.getProducts();
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
 );
 
 export const fetchGetProduct = createAsyncThunk(
   "/products",
   async (productId, thunkAPI) => {
-    const response = await productService.getProductById(productId);
-    return response.data;
+    try {
+      const response = await productService.getProductById(productId);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
 );
 
 export const fetchCreateProduct = createAsyncThunk(
   "product",
   async (creatProductDto, thunkAPI) => {
-    const response = await productService.createProduct(creatProductDto);
+    try {
+      const response = await productService.createProduct(creatProductDto);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
+export const fetchDeleteProduct = createAsyncThunk(
+  "sale",
+  async (productId, thunkAPI) => {
+    const response = await productService.deleteProductById(productId);
     return response.data;
   }
 );

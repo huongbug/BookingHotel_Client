@@ -28,11 +28,12 @@ class HotelServiceService {
     );
   }
 
-  async updateServiceById(serviceUpdateDto, serviceId) {
+  async updateServiceById(serviceId, updateServiceDto) {
     return await this.httpService.request(
       "PUT",
       `${process.env.REACT_APP_API_URL}/api/v1/service/update/${serviceId}`,
-      { body: serviceUpdateDto }
+      { body: updateServiceDto },
+      false
     );
   }
 

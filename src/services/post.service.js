@@ -16,7 +16,8 @@ class PostService {
     return await this.httpService.request(
       "POST",
       `${process.env.REACT_APP_API_URL}/api/v1/post/create`,
-      { body: postCreateDto }
+      { body: postCreateDto },
+      false
     );
   }
 
@@ -27,11 +28,12 @@ class PostService {
     );
   }
 
-  async updatePostById(postUpdateDto, postId) {
+  async updatePostById(postId, postUpdateDto) {
     return await this.httpService.request(
       "PUT",
       `${process.env.REACT_APP_API_URL}/api/v1/post/update/${postId}`,
-      { body: postUpdateDto }
+      { body: postUpdateDto },
+      false
     );
   }
 

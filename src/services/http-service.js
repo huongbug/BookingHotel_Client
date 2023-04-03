@@ -26,7 +26,6 @@ class HttpService {
   ) {
     return await axios.request({
       method: method,
-      // baseURL: "http://localhost:3000",
       url: uri,
       headers:
         isJson == true

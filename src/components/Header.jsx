@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import avatar from "../assets/img/avatar.jpg";
+import storageService from "../services/storage.service";
+import logo from "../assets/img/logo.png";
 
 const Header = () => {
   const location = useLocation();
   const pathName = location.pathname;
   const user = useSelector((state) => state.user.value);
-  console.log(user);
+  const token = storageService.get("token");
   let isActive = false;
 
   // useEffect(async () => {}, []);
@@ -22,16 +24,16 @@ const Header = () => {
             <div className="col-lg-6">
               <ul className="tn-left">
                 <li>
-                  <i className="fa fa-phone" /> (12) 345 67890
+                  <i className="fa fa-phone" /> 0-842343
                 </li>
                 <li>
-                  <i className="fa fa-envelope" /> info.colorlib@gmail.com
+                  <i className="fa fa-envelope" /> huongbug@gmail.com
                 </li>
               </ul>
             </div>
             <div className="col-lg-6">
               <div className="tn-right">
-                <div className="top-social">
+                {/* <div className="top-social">
                   <a href="#">
                     <i className="fa fa-facebook" />
                   </a>
@@ -44,26 +46,49 @@ const Header = () => {
                   <a href="#">
                     <i className="fa fa-instagram" />
                   </a>
-                </div>
-                <a href="#" className="bk-btn">
+                </div> */}
+                <Link className="bk-btn" to="/booking">
                   Booking Now
-                </a>
+                </Link>
                 <div className="language-option">
-                  <img src={avatar} alt="" />
-                  <span>
-                    {user?.firstName?.concat(" " + user?.lastName)}{" "}
-                    <i className="fa fa-angle-down" />
-                  </span>
-                  <div style={{ width: "200px" }} className="flag-dropdown">
-                    <ul>
-                      <li style={{ padding: "8px" }}>
-                        <Link to="/user">Thông tin cá nhân</Link>
-                      </li>
-                      <li style={{ padding: "8px" }}>
-                        <Link to="/booking">Thông tin đặt hàng</Link>
-                      </li>
-                    </ul>
-                  </div>
+                  {!token && (
+                    <Link className="bk-btn" to="/auth/login">
+                      Login
+                    </Link>
+                  )}
+                  {token && (
+                    <>
+                      <img src={user && user.avatar} alt="" />
+                      <span>
+                        {user?.firstName?.concat(" " + user?.lastName)}{" "}
+                        <i className="fa fa-angle-down" />
+                      </span>
+                      <div style={{ width: "200px" }} className="flag-dropdown">
+                        <ul>
+                          <li style={{ padding: "8px" }}>
+                            <Link to="/user">My Account</Link>
+                          </li>
+                          {user.roleName == "ROLE_ADMIN" && (
+                            <li style={{ padding: "8px" }}>
+                              <Link to="/admin/users">Manament</Link>
+                            </li>
+                          )}
+                          <li style={{ padding: "8px" }}>
+                            <Link to="/booking-detail">Booking Detail</Link>
+                          </li>
+                          <li
+                            onClick={() => {
+                              storageService.remove("token");
+                              window.location.href = "/auth/login";
+                            }}
+                            style={{ padding: "8px" }}
+                          >
+                            <div>Logout</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -75,9 +100,9 @@ const Header = () => {
           <div className="row">
             <div className="col-lg-2">
               <div className="logo">
-                <a href="./index.html">
-                  <img src="../assets/img/logo.png" alt="" />
-                </a>
+                <Link to="/">
+                  <img src={logo} alt="" />
+                </Link>
               </div>
             </div>
             <div className="col-lg-10">
@@ -94,33 +119,13 @@ const Header = () => {
                       <Link to={"/about-us"}>About Us</Link>
                     </li>
                     <li>
-                      <a href="./pages.html">Pages</a>
-                      <ul className="dropdown">
-                        <li>
-                          <Link to={"/room-detail/1"}>Room Details</Link>
-                        </li>
-                        <li>
-                          <Link to={"/blog-detail/1"}>Blog Details</Link>
-                        </li>
-                        <li>
-                          <a href="#">Family Room</a>
-                        </li>
-                        <li>
-                          <a href="#">Premium Room</a>
-                        </li>
-                      </ul>
+                      <Link to={"/blogs"}>News</Link>
                     </li>
-                    <li>
-                      <Link to={"/blog"}>News</Link>
-                    </li>
-                    <li>
+                    {/* <li>
                       <a href="./contact.html">Contact</a>
-                    </li>
+                    </li> */}
                   </ul>
                 </nav>
-                <div className="nav-right search-switch">
-                  <i className="icon_search" />
-                </div>
               </div>
             </div>
           </div>

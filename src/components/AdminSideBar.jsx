@@ -24,6 +24,14 @@ const AdminSIdeBar = () => {
       path: "/admin/products",
       name: "Manage Products",
     },
+    {
+      path: "/admin/posts",
+      name: "Manage Posts",
+    },
+    {
+      path: "/admin/bookings",
+      name: "Manage Bookings",
+    },
   ];
 
   return (

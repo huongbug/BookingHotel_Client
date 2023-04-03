@@ -27,7 +27,7 @@ class SaleService {
     );
   }
 
-  async updateSaleById(saleUpdateDto, saleId) {
+  async updateSaleById(saleId, saleUpdateDto) {
     return await this.httpService.request(
       "PUT",
       `${process.env.REACT_APP_API_URL}/api/v1/sale/update/${saleId}`,
