@@ -16,6 +16,7 @@ import {
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "./room.scss";
 
 const Rooms = ({
   expectedCheckIn,
@@ -101,9 +102,14 @@ const Rooms = ({
                       </Link>
                       <div style={{ marginTop: "30px" }}></div>
                       <button
-                        class="btn btn-link p-0"
+                        className="btn btn-link p-0 btn-add-room"
                         onClick={(e) => {
                           roomCallBack(room);
+                        }}
+                        style={{
+                          color: "#848492",
+                          height: "40px",
+                          width: "200px",
                         }}
                       >
                         Add to my booking

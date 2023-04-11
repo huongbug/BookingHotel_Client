@@ -5,10 +5,15 @@ class SaleService {
     this.httpService = new HttpService();
   }
 
-  async getSales() {
+  async getSales(deleteFlag) {
     return await this.httpService.request(
       "GET",
-      `${process.env.REACT_APP_API_URL}/api/v1/sale`
+      `${process.env.REACT_APP_API_URL}/api/v1/sale`,
+      {
+        params: {
+          deleteFlag: deleteFlag,
+        },
+      }
     );
   }
 

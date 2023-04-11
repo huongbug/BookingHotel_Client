@@ -151,7 +151,7 @@ const BookingDetail = () => {
                         <div className="d-flex justify-content-end mb-3">
                           <h4>
                             Tổng tiền phòng:{" "}
-                            <span style={{ color: "#dfa974", fontWeight: 700 }}>
+                            <span style={{ color: "#5892b5", fontWeight: 700 }}>
                               {booking.totalRoomPrice}$
                             </span>
                           </h4>
@@ -159,7 +159,7 @@ const BookingDetail = () => {
                         <div className="d-flex justify-content-end mb-3">
                           <h4>
                             Tổng tiền dịch vụ:{" "}
-                            <span style={{ color: "#dfa974", fontWeight: 700 }}>
+                            <span style={{ color: "#5892b5", fontWeight: 700 }}>
                               {booking.totalServicePrice}$
                             </span>
                           </h4>
@@ -170,9 +170,9 @@ const BookingDetail = () => {
                         class="btn btn-lg btn-block"
                         style={{
                           "text-transform": "uppercase",
-                          border: "1px solid #dfa974",
+                          border: "1px solid #5892b5",
                           "border-radius": "2px",
-                          color: "#dfa974",
+                          color: "#5892b5",
                           "font-weight": 500,
                           background: "transparent",
                         }}

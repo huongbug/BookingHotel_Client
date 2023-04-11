@@ -22,8 +22,6 @@ function App() {
         const result = await dispatch(fetchGetCurrentUser())
           .then(unwrapResult)
           .then((originalPromiseResult) => {
-            // setRooms(originalPromiseResult.data.items);
-            // console.log(originalPromiseResult.data);
             dispatch(setuser(originalPromiseResult.data));
           })
           .catch((rejectedValueOrSerializedError) => {

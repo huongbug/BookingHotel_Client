@@ -7,7 +7,6 @@ class RoomService {
 
   async getAvailableRooms(expectedCheckIn, expectedCheckOut, num, type) {
     console.log(expectedCheckIn, expectedCheckOut, num, type);
-    console.log();
     return await this.httpService.request(
       "GET",
       `${process.env.REACT_APP_API_URL}/api/v1/room/available`,
@@ -24,10 +23,15 @@ class RoomService {
     );
   }
 
-  async getRooms() {
+  async getRooms(deleteFlag) {
     return await this.httpService.request(
       "GET",
-      `${process.env.REACT_APP_API_URL}/api/v1/room`
+      `${process.env.REACT_APP_API_URL}/api/v1/room`,
+      {
+        params: {
+          deleteFlag: deleteFlag,
+        },
+      }
     );
   }
 

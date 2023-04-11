@@ -4,13 +4,14 @@ import reviewer from "../../assets/img/room/avatar/avatar-1.jpg";
 import Header from "../../components/Header";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchGetRoom } from "../../store/roomSlice/roomSlice";
 
 const RoomDetail = () => {
   let { roomId } = useParams();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
   const [room, setRoom] = useState({});
 
@@ -134,33 +135,67 @@ const RoomDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="review-add">
+              <div className="rd-reviews">
                 <h4>Add Review</h4>
+                <div
+                  style={{ display: "flex", alignItems: "center" }}
+                  className="review-item"
+                >
+                  <h5>You Rating:</h5>
+                  <div style={{ marginLeft: "44px" }} className="rating">
+                    <i class="fa-sharp fa-regular fa-star"></i>
+                    <i class="fa-sharp fa-regular fa-star"></i>
+                    <i class="fa-sharp fa-regular fa-star"></i>
+                    <i class="fa-sharp fa-regular fa-star"></i>
+                    <i class="fa-sharp fa-regular fa-star"></i>
+                    <i className="icon_star-half_alt" />
+                  </div>
+                </div>
+                <div className="review-item">
+                  <div className="ri-pic">
+                    <img src={user && user.avatar} alt="" />
+                  </div>
+                  <div className="ri-text">
+                    <span>27 Aug 2019</span>
+                    <div className="rating">
+                      <i className="icon_star" />
+                      <i className="icon_star" />
+                      <i className="icon_star" />
+                      <i className="icon_star" />
+                      <i className="icon_star-half_alt" />
+                    </div>
+                    <h5>
+                      {user && user.lastName.concat(" " + user.firstName)}
+                    </h5>
+                    <textarea
+                      style={{ width: "100%", padding: "12px" }}
+                      placeholder="Your Review"
+                    />
+                  </div>
+                </div>
+                <button type="submit">Submit Now</button>
+              </div>
+              {/* <div className="review-add">
+                <h4></h4>
                 <form action="#" className="ra-form">
                   <div className="row">
-                    <div className="col-lg-6">
-                      <input type="text" placeholder="Name*" />
-                    </div>
-                    <div className="col-lg-6">
-                      <input type="text" placeholder="Email*" />
-                    </div>
                     <div className="col-lg-12">
                       <div>
                         <h5>You Rating:</h5>
                         <div className="rating">
-                          <i className="icon_star" />
-                          <i className="icon_star" />
-                          <i className="icon_star" />
-                          <i className="icon_star" />
+                          <i class="fa-sharp fa-regular fa-star"></i>
+                          <i class="fa-sharp fa-regular fa-star"></i>
+                          <i class="fa-sharp fa-regular fa-star"></i>
+                          <i class="fa-sharp fa-regular fa-star"></i>
+                          <i class="fa-sharp fa-regular fa-star"></i>
                           <i className="icon_star-half_alt" />
                         </div>
                       </div>
-                      <textarea placeholder="Your Review" />
-                      <button type="submit">Submit Now</button>
+                      <div></div>
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> */}
             </div>
             <div className="col-lg-4">
               <div className="room-booking">
@@ -179,6 +214,7 @@ const RoomDetail = () => {
                   <div style={{ width: "100%" }} className="select-option">
                     <label htmlFor="guest">Guests:</label>
                     <select
+                      className="custom-select"
                       style={{ width: "100%", height: "50px" }}
                       id="guest"
                     >

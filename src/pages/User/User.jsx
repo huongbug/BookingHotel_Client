@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./user.scss";
 import avatar from "../../assets/img/avatar.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header";
+import { Link } from "react-router-dom";
+import { fetchUpdateUser } from "../../store/userSlice/userSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const User = () => {
   const user = useSelector((state) => state.user.value);
 
   const [email, setEmail] = useState(user.email);
-  const [phone, setPhone] = useState(user.phone);
   const [password, setPassword] = useState(user.password);
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [firstName, setFirstName] = useState(user.firstName);
@@ -16,125 +18,296 @@ const User = () => {
   const [gender, setGender] = useState(user.gender);
   const [birthday, setBirthday] = useState(user.birthday);
   const [address, setAddress] = useState(user.address);
+  const [avatar, setAvatar] = useState(user.address);
+  const dispatch = useDispatch();
 
-  console.log(user);
-
+  const updateUser = (async (e) => {
+    e.preventDefault();
+    alert("ok");
+    return;
+    const result = await dispatch(
+      fetchUpdateUser({
+        userId: user.id,
+        updateUserDto: {
+          email,
+          password,
+          phoneNumber,
+          firstName,
+          lastName,
+          gender,
+          birthday,
+          address,
+          avatar,
+        },
+      })
+    )
+      .then(unwrapResult)
+      .then((originalPromiseResult) => {
+        const data = originalPromiseResult.data;
+      })
+      .catch((rejectedValueOrSerializedError) => {
+        console.log(rejectedValueOrSerializedError);
+        // handle result here
+      });
+  })();
   return (
     <>
       <Header />
-      <div className="user">
-        <form>
-          <h2 style={{ marginBottom: "12px" }}>My account</h2>
-          <div className="form-row">
-            <img
-              style={{ width: "80px", height: "80px", borderRadius: "50%" }}
-              src={user && user.avatar}
-            />
-          </div>
-          <div style={{ marginTop: "30px" }} className="form-row">
-            <div className="col-md-4 mb-3">
-              <label htmlFor="validationDefaultUsername">Email</label>
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text" id="inputGroupPrepend2">
-                    @
-                  </span>
+      <div className="main-content">
+        <div className="container">
+          {/* Table */}
+          <div className="row">
+            <div className="col-xl-8 m-auto order-xl-1">
+              <div className="card bg-secondary shadow">
+                <div className="card-header bg-white border-0">
+                  <div className="row align-items-center">
+                    <div className="col-8">
+                      <h3 className="mb-0">My account</h3>
+                    </div>
+                    <div className="col-4 text-right">
+                      <Link to="/" className="btn btn-sm btn-primary">
+                        Back
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="validationDefaultUsername"
-                  value={email ? email : user.email}
-                  aria-describedby="inputGroupPrepend2"
-                  required
-                />
-              </div>
-            </div>
-            <div className="col-md-4 mb-3">
-              <label htmlFor="validationDefault02">Phone Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="validationDefault02"
-                value={phoneNumber ? phoneNumber : user.phoneNumber}
-                required
-              />
-            </div>
-            <div className="col-md-4 mb-3">
-              <label htmlFor="validationDefaultUsername">Password</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="validationDefaultUsername"
-                  value={password ? password : user.password}
-                  aria-describedby="inputGroupPrepend2"
-                  required
-                />
+                <div className="card-body">
+                  <form
+                    // onSubmit={(e) => {
+                    //   e.preventDefault();
+                    //   alert("ok");
+                    // }}
+                    onSubmit={updateUser}
+                  >
+                    <h6 className="heading-small text-muted mb-4">
+                      User information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <div className="form-group focused">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Email address
+                            </label>
+                            <input
+                              type="email"
+                              id="input-username"
+                              className="form-control form-control-alternative"
+                              placeholder="Email"
+                              defaultValue={user && user.email}
+                              onchange={(e) => {
+                                setEmail(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-6">
+                          <div className="form-group">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Phone number
+                            </label>
+                            <input
+                              type="text"
+                              id="input-email"
+                              className="form-control form-control-alternative"
+                              placeholder="jesse@.com"
+                              defaultValue={user && user.phoneNumber}
+                              onchange={(e) => {
+                                setPhoneNumber(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <div className="form-group focused">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-first-name"
+                            >
+                              First name
+                            </label>
+                            <input
+                              type="text"
+                              id="input-first-name"
+                              className="form-control form-control-alternative"
+                              placeholder="First name"
+                              defaultValue={user && user.firstName}
+                              onchange={(e) => {
+                                setFirstName(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-6">
+                          <div className="form-group focused">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-last-name"
+                            >
+                              Last name
+                            </label>
+                            <input
+                              type="text"
+                              id="input-last-name"
+                              className="form-control form-control-alternative"
+                              placeholder="Last name"
+                              defaultValue={user && user.lastName}
+                              onchange={(e) => {
+                                setLastName(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Address */}
+                    <h6 className="heading-small text-muted mb-4">
+                      Contact information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <div className="row">
+                        <div className="col-lg-4">
+                          <div className="form-group focused">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-city"
+                            >
+                              Address
+                            </label>
+                            <input
+                              type="text"
+                              id="input-city"
+                              className="form-control form-control-alternative"
+                              placeholder="City"
+                              defaultValue={user && user.address}
+                              onchange={(e) => {
+                                setAddress(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-4">
+                          <div className="form-group focused">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-country"
+                            >
+                              Country
+                            </label>
+                            <input
+                              type="date"
+                              id="input-postal-code"
+                              className="form-control form-control-alternative"
+                              placeholder="Postal code"
+                              defaultValue={user && user.birthday}
+                              onchange={(e) => {
+                                setBirthday(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-lg-4">
+                          <div className="form-group">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-country"
+                            >
+                              Gender
+                            </label>
+                            <select
+                              className="custom-select"
+                              style={{ width: "100%", height: "100%" }}
+                              id="guest"
+                              onchange={(e) => {
+                                setGender(e.target.value);
+                              }}
+                            >
+                              <option defaultValue={"Male"}>Male</option>
+                              <option defaultValue={"Famale"}>Female</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Address */}
+                    <h6 className="heading-small text-muted mb-4">
+                      Contact information
+                    </h6>
+                    <div className="pl-lg-4">
+                      <div className="row">
+                        <div className="col-lg-4">
+                          <div className="form-group focused">
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-city"
+                            >
+                              Avatar
+                            </label>
+                            {user && user.avatar && (
+                              <>
+                                <input
+                                  type="file"
+                                  id="input-city"
+                                  className="form-control form-control-alternative mb-4"
+                                  placeholder="City"
+                                  onchange={(e) => {
+                                    setAvatar(e.target.value);
+                                  }}
+                                />
+                                <img
+                                  style={{
+                                    width: "200px",
+                                    height: "200px",
+                                    borderRadius: "50%",
+                                  }}
+                                  src={user.avatar}
+                                />
+                              </>
+                            )}
+                            {user && !user.avatar && (
+                              <input
+                                type="file"
+                                id="input-city"
+                                className="form-control form-control-alternative"
+                                placeholder="City"
+                                onchange={(e) => {
+                                  setAvatar(e.target.value);
+                                }}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Description */}
+                    <div className="pl-lg-4">
+                      <div className="form-group focused">
+                        <button
+                          to="/"
+                          className="btn btn-sm btn-primary"
+                          style={{ padding: "12px" }}
+                        >
+                          Update profile
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-          <div className="form-row">
-            <div className="col-md-4 mb-3">
-              <label htmlFor="validationDefault01">First name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="validationDefault01"
-                value={firstName ? firstName : user.firstName}
-                required
-              />
-            </div>
-            <div className="col-md-4 mb-3">
-              <label htmlFor="validationDefault02">Last name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="validationDefault02"
-                value={lastName ? lastName : user.lastName}
-                required
-              />
-            </div>
-            <div className="col-md-4 mb-3">
-              <label htmlFor="validationDefaultUsername">Gender</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="validationDefaultUsername"
-                  value={gender ? gender : user.gender}
-                  aria-describedby="inputGroupPrepend2"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="col-md-6 mb-3">
-              <label htmlFor="validationDefault03">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="validationDefault03"
-                value={address ? address : user.address}
-                required
-              />
-            </div>
-            <div className="col-md-6 mb-6">
-              <label htmlFor="validationDefault04">Birthday</label>
-              <input
-                type="date"
-                className="form-control"
-                id="validationDefault04"
-                value={birthday ? birthday : user.birthday}
-                required
-              />
-            </div>
-          </div>
-          <button className="btn btn-primary" type="submit">
-            Update profile
-          </button>
-        </form>
+        </div>
       </div>
     </>
   );

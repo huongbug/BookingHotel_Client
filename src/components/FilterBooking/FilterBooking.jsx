@@ -58,7 +58,10 @@ function FilterBooking({ filter }) {
   );
 
   return (
-    <div className="container" style={{ padding: "0 20px" }}>
+    <div
+      className="container"
+      style={{ padding: "0 20px", fontFamily: "serif" }}
+    >
       <div className="row">
         <div className="col-lg-3 col-md-6">
           <div className="room-item">
@@ -91,6 +94,8 @@ function FilterBooking({ filter }) {
         <div className="col-lg-3 col-md-6">
           <div className="room-item">
             <select
+              id="guest"
+              className="custom-select select-option"
               name="num"
               style={{ width: "208px", height: "49px", fontSize: "18px" }}
               onChange={(e) => {
@@ -112,10 +117,14 @@ function FilterBooking({ filter }) {
           <div className="room-item">
             <select
               style={{ width: "208px", height: "49px", fontSize: "18px" }}
+              id="guest"
+              className="custom-select select-option"
+              name="num"
               onChange={(e) => {
                 setType(e.target.value);
               }}
             >
+              <option value={""}>Choose type room</option>
               <option value={"VIP"}>VIP</option>
               <option value={"Normal"}>Normal</option>
             </select>
@@ -128,6 +137,7 @@ function FilterBooking({ filter }) {
           console.log(expectedCheckIn, expectedCheckOut, num, type);
           filter(expectedCheckIn, expectedCheckOut, num, type);
         }}
+        style={{ backgroundColor: "#5892b5 !important" }}
       >
         Filter rooms
       </button>

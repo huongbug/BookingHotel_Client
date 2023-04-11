@@ -33,20 +33,6 @@ const Header = () => {
             </div>
             <div className="col-lg-6">
               <div className="tn-right">
-                {/* <div className="top-social">
-                  <a href="#">
-                    <i className="fa fa-facebook" />
-                  </a>
-                  <a href="#">
-                    <i className="fa fa-twitter" />
-                  </a>
-                  <a href="#">
-                    <i className="fa fa-tripadvisor" />
-                  </a>
-                  <a href="#">
-                    <i className="fa fa-instagram" />
-                  </a>
-                </div> */}
                 <Link className="bk-btn" to="/booking">
                   Booking Now
                 </Link>
@@ -79,11 +65,11 @@ const Header = () => {
                           <li
                             onClick={() => {
                               storageService.remove("token");
-                              window.location.href = "/auth/login";
+                              // window.location.href = "/auth/login";
                             }}
                             style={{ padding: "8px" }}
                           >
-                            <div>Logout</div>
+                            <Link to="/auth/login">Logout</Link>
                           </li>
                         </ul>
                       </div>
@@ -99,9 +85,19 @@ const Header = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-2">
-              <div className="logo">
-                <Link to="/">
-                  <img src={logo} alt="" />
+              <div
+                className="logoo"
+                style={{ width: "100px", height: "100px" }}
+              >
+                <Link
+                  to="/"
+                  style={{ display: "block", width: "100%", height: "100%" }}
+                >
+                  <img
+                    style={{ width: "100%", height: "100%" }}
+                    src={logo}
+                    alt=""
+                  />
                 </Link>
               </div>
             </div>
@@ -110,16 +106,16 @@ const Header = () => {
                 <nav className="mainmenu">
                   <ul>
                     <li className={pathName == "/" ? "active" : ""}>
-                      <Link to={"/"}>Home</Link>
+                      <Link to={"/"}>HOME</Link>
                     </li>
                     <li className={pathName == "/rooms" ? "active" : ""}>
-                      <Link to={"/rooms"}>Rooms</Link>
+                      <Link to={"/rooms"}>ROOMS</Link>
                     </li>
                     <li className={pathName == "/about-us" ? "active" : ""}>
-                      <Link to={"/about-us"}>About Us</Link>
+                      <Link to={"/about-us"}>ABOUT US</Link>
                     </li>
                     <li>
-                      <Link to={"/blogs"}>News</Link>
+                      <Link to={"/blogs"}>NEWS</Link>
                     </li>
                     {/* <li>
                       <a href="./contact.html">Contact</a>

@@ -29,7 +29,7 @@ const AdminHeader = () => {
       <ul className="nav user-menu" onClick={() => setIsBlock(!isBlock)}>
         <li className="nav-item dropdown has-arrow main-drop">
           <a
-            href="javascript:void(0);"
+            // href="javascript:void(0);"
             className="dropdown-toggle nav-link userset"
             data-bs-toggle="dropdown"
           >

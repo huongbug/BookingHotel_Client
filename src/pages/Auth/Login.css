@@ -102,7 +102,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #dfa974;
+  background-color: #5892b5;
   border-radius: 3px;
 }
 
@@ -178,7 +178,7 @@
   font-weight: 700;
   line-height: 1em;
   text-transform: uppercase;
-  color: #dfa974;
+  color: #5892b5;
   letter-spacing: 0.1rem;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .user_options-forms .forms_buttons-action {
-  background-color: #dfa974;
+  background-color: #5892b5;
   border-radius: 3px;
   padding: 10px 35px;
   font-size: 1rem;
@@ -235,7 +235,7 @@
 }
 
 .user_options-forms .forms_buttons-action:hover {
-  background-color: #b57b41;
+  background-color: #9b6e43;
 }
 
 .user_options-forms .user_forms-signup,

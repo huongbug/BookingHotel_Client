@@ -9,7 +9,18 @@ import PostService from "../../services/post.service";
 
 const postService = new PostService();
 
-// First, create the thunk
+export const fetchGetPostsAdmin = createAsyncThunk(
+  "/posts",
+  async (deleteFlag, thunkAPI) => {
+    try {
+      const response = await postService.getPostsAdmin(deleteFlag);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue(err.response.data);
+    }
+  }
+);
+
 export const fetchGetPosts = createAsyncThunk("/posts", async (thunkAPI) => {
   try {
     const response = await postService.getPosts();

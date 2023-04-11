@@ -12,10 +12,15 @@ class UserService {
     );
   }
 
-  async getUsers() {
+  async getUsers(deleteFlag) {
     return await this.httpService.request(
       "GET",
-      `${process.env.REACT_APP_API_URL}/api/v1/user`
+      `${process.env.REACT_APP_API_URL}/api/v1/user`,
+      {
+        params: {
+          isLocked: deleteFlag,
+        },
+      }
     );
   }
 

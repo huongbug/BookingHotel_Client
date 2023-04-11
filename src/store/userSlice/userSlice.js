@@ -7,14 +7,17 @@ const initialState = {
   value: {},
 };
 
-export const fetchGetUsers = createAsyncThunk("/user", async (thunkAPI) => {
-  try {
-    const response = await userService.getUsers();
-    return response.data;
-  } catch (err) {
-    return err.response.data;
+export const fetchGetUsers = createAsyncThunk(
+  "/user",
+  async (deleteFlag, thunkAPI) => {
+    try {
+      const response = await userService.getUsers(deleteFlag);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
-});
+);
 
 export const fetchGetUser = createAsyncThunk(
   "/user",

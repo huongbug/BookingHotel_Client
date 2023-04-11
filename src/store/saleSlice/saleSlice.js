@@ -6,10 +6,13 @@ import SaleService from "../../services/sale.service";
 const saleService = new SaleService();
 
 // First, create the thunk
-export const fetchGetSales = createAsyncThunk("/sales", async (thunkAPI) => {
-  const response = await saleService.getSales();
-  return response.data;
-});
+export const fetchGetSales = createAsyncThunk(
+  "/sales",
+  async (deleteFlag, thunkAPI) => {
+    const response = await saleService.getSales(deleteFlag);
+    return response.data;
+  }
+);
 
 export const fetchGetAvailableSales = createAsyncThunk(
   "/sales",

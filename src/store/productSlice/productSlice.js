@@ -5,7 +5,18 @@ import ProductService from "../../services/product.service";
 
 const productService = new ProductService();
 
-// First, create the thunk
+export const fetchGetProductsAdmin = createAsyncThunk(
+  "/products",
+  async (deleteFlag, thunkAPI) => {
+    try {
+      const response = await productService.getProductsAdmin(deleteFlag);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
 export const fetchGetProducts = createAsyncThunk(
   "/products",
   async (thunkAPI) => {

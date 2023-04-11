@@ -16,7 +16,7 @@ const Slider = () => {
         <div className="row">
           <div className="col-lg-6">
             <div className="hero-text">
-              <h1>Sona A Luxury Hotel</h1>
+              <h1>Thanh Huong Hotel</h1>
               <p>
                 Here are the best hotel booking sites, including recommendations
                 for international travel and for finding low-priced hotel rooms.
@@ -42,7 +42,11 @@ const Slider = () => {
                 </div>
                 <div style={{ width: "100%" }} className="select-option">
                   <label htmlFor="guest">Guests:</label>
-                  <select style={{ width: "100%", height: "50px" }} id="guest">
+                  <select
+                    className="custom-select"
+                    style={{ width: "100%", height: "50px" }}
+                    id="guest"
+                  >
                     <option defaultValue={1}>1 person</option>
                     <option defaultValue={2}>2 persons</option>
                     <option defaultValue={3}>3 persons</option>

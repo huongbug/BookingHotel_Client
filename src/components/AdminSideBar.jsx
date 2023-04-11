@@ -77,13 +77,13 @@ const AdminSIdeBar = () => {
             <div id="sidebar-menu" className="sidebar-menu">
               <ul>
                 <li className="submenu">
-                  <a href="javascript:void(0);" className="active">
+                  <a className="active">
                     <img src={adminDashboard} alt="img" />
                     <span> Dashboards</span> <span className="menu-arrow" />
                   </a>
                   <ul style={{ display: "block" }}>
-                    {sideBars.map((sideBar) => (
-                      <li style={{ padding: "12px" }}>
+                    {sideBars.map((sideBar, index) => (
+                      <li key={index} style={{ padding: "12px" }}>
                         <Link to={sideBar.path}>{sideBar.name}</Link>
                       </li>
                     ))}

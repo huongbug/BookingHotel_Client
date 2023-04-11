@@ -55,7 +55,7 @@ const Rooms = () => {
                   <div key={room.id} className="col-lg-4 col-md-6">
                     <div className="room-item">
                       <img
-                        style={{ height: "450px", width: "100%" }}
+                        style={{ height: "250px", width: "100%" }}
                         src={room?.medias?.[0]?.url}
                         alt=""
                       />

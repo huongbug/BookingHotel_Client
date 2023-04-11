@@ -6,6 +6,19 @@ import HotelServiceService from "../../services/hotel-service.service";
 
 const hotelService = new HotelServiceService();
 
+export const fetchGetHotelServicesAdmin = createAsyncThunk(
+  "/hotels",
+  async (deleteFlag, thunkAPI) => {
+    try {
+      const response = await hotelService.getServicesAdmin(deleteFlag);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
+  }
+);
+
 export const fetchGetHotelServices = createAsyncThunk(
   "/hotels",
   async (thunkAPI) => {

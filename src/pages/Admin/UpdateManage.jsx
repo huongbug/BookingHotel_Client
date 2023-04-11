@@ -408,7 +408,7 @@ const UpdateManage = () => {
                     className="btn btn-submit me-2"
                     onClick={updateOption}
                   >
-                    Submit
+                    Update
                   </button>
                   <button className="btn btn-cancel">Cancel</button>
                 </div>

@@ -21,7 +21,7 @@ const Login = () => {
   const [isBounceActive, setIsBounceActive] = useState(false);
   const [emailOrPhone, setEmailOrPhone] = useState("admin@gmail.com");
   const [password, setPassword] = useState("admin");
-  const [newEmailOrPhone, setNewEmailOrPhone] = useState("");
+  const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
@@ -75,7 +75,7 @@ const Login = () => {
   };
   const registerFunc = async () => {
     console.log(
-      newEmailOrPhone,
+      newEmail,
       newPassword,
       newPhoneNumber,
       newFirstName,
@@ -85,7 +85,7 @@ const Login = () => {
       newAddress
     );
     const formData = new FormData();
-    formData.append("email", newEmailOrPhone);
+    formData.append("email", newEmail);
     formData.append("password", newPassword);
     formData.append("phoneNumber", newPhoneNumber);
     formData.append("firstName", newFirstName);
@@ -96,14 +96,42 @@ const Login = () => {
     const result = await dispatch(fetchRegister(formData))
       .then(unwrapResult)
       .then((originalPromiseResult) => {
-        // window.location.href = "/auth/login";
-        console.log("result", originalPromiseResult);
-        if (originalPromiseResult.status == "SUCCESS") {
-          Swal.fire("Đăng ký thành công", "", "success");
-        } else {
-          Swal.fire("Có lỗi xảy ra", "", "error");
-        }
-        // handle result here
+        Swal.fire({
+          title: "Input code from your email",
+          input: "text",
+          inputAttributes: {
+            autocapitalize: "off",
+          },
+          showCancelButton: true,
+          confirmButtonText: "Enter",
+          showLoaderOnConfirm: true,
+          preConfirm: async (token) => {
+            return await fetch(
+              `${process.env.REACT_APP_API_URL}/api/v1/auth/signup/verify?email=${newEmail}&token=${token}`,
+              {
+                method: "POST",
+              }
+            )
+              .then((response) => {
+                console.log(response);
+                if (!response.ok) {
+                  throw new Error(response.statusText);
+                }
+                return response.json();
+              })
+              .catch((error) => {
+                Swal.showValidationMessage(`Request failed: ${error}`);
+              });
+          },
+          // allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+          console.log("result", result);
+          if (result.value.status == "SUCCESS") {
+            Swal.fire("Đăng ký thành công", "", "success");
+          } else {
+            Swal.fire("Token không chính xác");
+          }
+        });
       })
       .catch((rejectedValueOrSerializedError) => {
         console.log(rejectedValueOrSerializedError);
@@ -113,16 +141,6 @@ const Login = () => {
 
   return (
     <section className="login">
-      {/* <Modal
-        displayModal={displayModal}
-        statusModal={statusModal}
-        messageModal={messageModal}
-        callback={callback}
-        url="/auth/login"
-        // displayStatus="true"
-        // message="Cập nhật thành công"
-        // status="success"
-      /> */}
       <OwlCarousel
         style={{ position: "absolute", top: "0" }}
         className="owl-main hero-slider"
@@ -232,8 +250,8 @@ const Login = () => {
                       placeholder="Email"
                       className="forms_field-input"
                       required=""
-                      value={newEmailOrPhone}
-                      onChange={(e) => setNewEmailOrPhone(e.target.value)}
+                      value={newEmail}
+                      onChange={(e) => setNewEmail(e.target.value)}
                     />
                   </div>
                   <div className="forms_field">
@@ -277,7 +295,7 @@ const Login = () => {
                     />
                   </div>
                   <div className="forms_field">
-                    <label for="male">Male</label>{" "}
+                    <label htmlFor="male">Male</label>{" "}
                     <input
                       style={{ marginRight: "12px" }}
                       id="male"
@@ -286,7 +304,7 @@ const Login = () => {
                       name="gender"
                       onChange={(e) => setNewGender(e.target.value)}
                     />
-                    <label for="female">Femle</label>{" "}
+                    <label htmlFor="female">Female</label>{" "}
                     <input
                       name="gender"
                       id="female"

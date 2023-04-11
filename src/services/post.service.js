@@ -5,6 +5,18 @@ class PostService {
     this.httpService = new HttpService();
   }
 
+  async getPostsAdmin(deleteFlag) {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/post/admin`,
+      {
+        params: {
+          deleteFlag: deleteFlag,
+        },
+      }
+    );
+  }
+
   async getPosts() {
     return await this.httpService.request(
       "GET",

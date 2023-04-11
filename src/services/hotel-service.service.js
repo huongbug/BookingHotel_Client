@@ -5,6 +5,18 @@ class HotelServiceService {
     this.httpService = new HttpService();
   }
 
+  async getServicesAdmin(deleteFlag) {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/service/admin`,
+      {
+        params: {
+          deleteFlag: deleteFlag,
+        },
+      }
+    );
+  }
+
   async getServices() {
     return await this.httpService.request(
       "GET",

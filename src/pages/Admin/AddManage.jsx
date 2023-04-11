@@ -32,6 +32,7 @@ const AddUser = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [statusModal, setStatusModal] = useState("");
   const [messageModal, setMessageModal] = useState("");
+  const [virtualImg, setVirtualImg] = useState("assets/img/icons/upload.svg");
 
   const callback = () => {
     setDisplayModal(false);
@@ -181,6 +182,8 @@ const AddUser = () => {
                         <input
                           type="file"
                           onChange={(e) => {
+                            setVirtualImg(e.target.files[0]);
+
                             setData((prevState) => {
                               // console.log();
                               prevState["files"] = e.target.files[0];
@@ -189,7 +192,7 @@ const AddUser = () => {
                           }}
                         />
                         <div className="image-uploads">
-                          <img src="assets/img/icons/upload.svg" alt="img" />
+                          <img src={virtualImg} alt="img" />
                           <h4>Drag and drop a file to upload</h4>
                         </div>
                       </div>
@@ -227,14 +230,28 @@ const AddUser = () => {
                           <input
                             type="file"
                             onChange={(e) => {
+                              setVirtualImg(
+                                URL.createObjectURL(e.target.files[0])
+                              );
                               setData((prevState) => {
                                 prevState["files"] = e.target.files[0];
+                                console.log(e.target.files[0]);
                                 return prevState;
                               });
                             }}
                           />
+
                           <div className="image-uploads">
-                            <img src="assets/img/icons/upload.svg" alt="img" />
+                            <img
+                              style={
+                                {
+                                  // width: "100px",
+                                  // height: "100px",
+                                }
+                              }
+                              src={virtualImg}
+                              alt="img"
+                            />
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>

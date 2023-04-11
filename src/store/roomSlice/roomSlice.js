@@ -6,15 +6,18 @@ import RoomService from "../../services/room.service";
 const roomService = new RoomService();
 
 // First, create the thunk
-export const fetchGetRooms = createAsyncThunk("/rooms", async (thunkAPI) => {
-  try {
-    const response = await roomService.getRooms();
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    return err.response;
+export const fetchGetRooms = createAsyncThunk(
+  "/rooms",
+  async (deleteFlag, thunkAPI) => {
+    try {
+      const response = await roomService.getRooms(deleteFlag);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
   }
-});
+);
 
 export const fetchGetAvailableRooms = createAsyncThunk(
   "/rooms",
