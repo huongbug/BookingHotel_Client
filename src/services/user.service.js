@@ -36,7 +36,8 @@ class UserService {
     return await this.httpService.request(
       "PATCH",
       `${process.env.REACT_APP_API_URL}/api/v1/user/update/${userId}`,
-      { body: updateUserDto }
+      { body: updateUserDto },
+      false
     );
   }
 

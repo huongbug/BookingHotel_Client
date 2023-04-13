@@ -7,17 +7,16 @@ class RoomService {
 
   async getAvailableRooms(expectedCheckIn, expectedCheckOut, num, type) {
     console.log(expectedCheckIn, expectedCheckOut, num, type);
+    let params = {};
+    if (expectedCheckIn) params["checkin"] = expectedCheckIn;
+    if (expectedCheckOut) params["checkout"] = expectedCheckOut;
+    if (num) params["maxNum"] = num;
+    if (type) params["roomType"] = type;
     return await this.httpService.request(
       "GET",
       `${process.env.REACT_APP_API_URL}/api/v1/room/available`,
       {
-        params: {
-          checkin: expectedCheckIn,
-          checkout: expectedCheckOut,
-          maxNum: num,
-          roomType: type,
-          // roomType: "",
-        },
+        params: params,
       }
       // ?checkin=${expectedCheckIn}&checkout=${expectedCheckOut}&roomType=${type}&maxNum=${num}
     );
@@ -47,7 +46,15 @@ class RoomService {
   async getRoomById(roomId) {
     return await this.httpService.request(
       "GET",
+      // `${process.env.REACT_APP_API_URL}/api/v1/room/${roomId}/room-ratings`
       `${process.env.REACT_APP_API_URL}/api/v1/room/${roomId}`
+    );
+  }
+
+  async getRatingByRoomId(roomId) {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/room/${roomId}/room-ratings`
     );
   }
 
@@ -64,6 +71,14 @@ class RoomService {
     return await this.httpService.request(
       "DELETE",
       `${process.env.REACT_APP_API_URL}/api/v1/room/delete/${roomId}`
+    );
+  }
+
+  async createRoomRating(createRoomRatingDto, roomId) {
+    return await this.httpService.request(
+      "POST",
+      `${process.env.REACT_APP_API_URL}/api/v1/room-rating/create/${roomId}`,
+      { body: createRoomRatingDto }
     );
   }
 }

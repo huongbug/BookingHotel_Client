@@ -50,6 +50,19 @@ export const fetchGetRoom = createAsyncThunk(
   }
 );
 
+export const fetchRatingByRoomId = createAsyncThunk(
+  "room",
+  async (roomId, thunkAPI) => {
+    try {
+      const response = await roomService.getRatingByRoomId(roomId);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
+  }
+);
+
 export const fetchCreateRoom = createAsyncThunk(
   "room",
   async (createRoomDto, thunkAPI) => {
@@ -80,6 +93,17 @@ export const fetchDeleteRoom = createAsyncThunk(
   "room",
   async (roomId, thunkAPI) => {
     const response = await roomService.deleteRoomById(roomId);
+    return response.data;
+  }
+);
+
+export const fetchPostRoomRating = createAsyncThunk(
+  "room",
+  async ({ crateRoomRatingDto, roomId }, thunkAPI) => {
+    const response = await roomService.createRoomRating(
+      crateRoomRatingDto,
+      roomId
+    );
     return response.data;
   }
 );

@@ -54,19 +54,23 @@ const Login = () => {
     )
       .then(unwrapResult)
       .then((originalPromiseResult) => {
-        // console.log(originalPromiseResult);
-        const token = originalPromiseResult.data.accessToken;
-        const index = originalPromiseResult.data.authorities.findIndex(
-          (role) => {
-            return role.authority == "ROLE_ADMIN";
+        if (originalPromiseResult.status == "SUCCESS") {
+          const token = originalPromiseResult.data.accessToken;
+          const index = originalPromiseResult.data.authorities.findIndex(
+            (role) => {
+              return role.authority == "ROLE_ADMIN";
+            }
+          );
+          storageService.set("token", token);
+          if (index == "-1") {
+            window.location.href = "/";
+          } else {
+            window.location.href = "/admin/users";
           }
-        );
-        storageService.set("token", token);
-        if (index == "-1") {
-          window.location.href = "/";
         } else {
-          window.location.href = "/admin/users";
+          Swal.fire(originalPromiseResult.message, "", "error");
         }
+        console.log(originalPromiseResult);
       })
       .catch((rejectedValueOrSerializedError) => {
         console.log(rejectedValueOrSerializedError);

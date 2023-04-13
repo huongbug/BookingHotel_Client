@@ -21,6 +21,7 @@ import {
 import {
   fetchCreateProduct,
   fetchGetProduct,
+  fetchUpdateProduct,
 } from "../../store/productSlice/productSlice";
 import productInterface from "../../interfaces/product.interface";
 import { fetchGetSale, fetchUpdateSale } from "../../store/saleSlice/saleSlice";
@@ -28,6 +29,7 @@ import { fetchGetUser, fetchUpdateUser } from "../../store/userSlice/userSlice";
 import Modal from "../../components/Modal/Modal";
 import { fetchGetPost, fetchUpdatePost } from "../../store/postSlice/postSlice";
 import postInterface from "../../interfaces/post.interface";
+import "./addManage.scss";
 
 const UpdateManage = () => {
   const dispatch = useDispatch();
@@ -39,6 +41,10 @@ const UpdateManage = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [statusModal, setStatusModal] = useState("");
   const [messageModal, setMessageModal] = useState("");
+  const [virtualImg, setVirtualImg] = useState([]);
+  const [virtualOldImg, setVirtualOldImg] = useState([
+    "assets/img/icons/upload.svg",
+  ]);
 
   const callback = () => {
     setDisplayModal(false);
@@ -98,6 +104,13 @@ const UpdateManage = () => {
         .then((originalPromiseResult) => {
           const data = originalPromiseResult.data;
           setData(data);
+          if (data?.medias) {
+            let urls = data.medias.map((media) => media.url);
+            setVirtualOldImg([...urls]);
+          }
+          if (data?.thumbnail) {
+            setVirtualOldImg(data?.thumbnail);
+          }
         })
         .catch((rejectedValueOrSerializedError) => {
           console.log(rejectedValueOrSerializedError);
@@ -116,7 +129,12 @@ const UpdateManage = () => {
       }
       data["mediaIds[]"] = data["medias"].map((item) => item.id);
       delete data["medias"];
+      let files = data["files"];
+      delete ["files"];
       let formData = new FormData();
+      for (let file of files) {
+        formData.append("files", file);
+      }
       for (let i in data) {
         formData.append(i, data[i]);
       }
@@ -139,9 +157,19 @@ const UpdateManage = () => {
       for (let i in data) {
         formData.append(i, data[i]);
       }
-      func = fetchUpdateRoom(formData);
+      func = fetchUpdateProduct({
+        productId: optionId,
+        productUpdateDto: formData,
+      });
     } else if (option == "posts") {
+      data["mediaIds[]"] = data["medias"].map((item) => item.id);
+      delete data["medias"];
+      let files = data["files"];
+      delete ["files"];
       let formData = new FormData();
+      for (let file of files) {
+        formData.append("files", file);
+      }
       for (let i in data) {
         formData.append(i, data[i]);
       }
@@ -168,6 +196,17 @@ const UpdateManage = () => {
         setMessageModal("Cập nhật thất bại");
         // handle result here
       });
+  };
+
+  const handleDeleteImage = (index) => {
+    virtualImg.splice(index, 1);
+    virtualOldImg.splice(index, 1);
+    setVirtualImg([...virtualImg]);
+    setVirtualOldImg([...virtualOldImg]);
+    setData((prevState) => {
+      data["medias"] = virtualOldImg;
+      return prevState;
+    });
   };
 
   return (
@@ -218,29 +257,6 @@ const UpdateManage = () => {
                       </div>
                     </div>
                   ))}
-                {/* {option == "users" && (
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label> User Image</label>
-                      <div className="image-upload">
-                        <input
-                          type="file"
-                          onChange={(e) => {
-                            setData((prevState) => {
-                              // console.log();
-                              prevState["files"] = e.target.files[0];
-                              return prevState;
-                            });
-                          }}
-                        />
-                        <div className="image-uploads">
-                          <img src="assets/img/icons/upload.svg" alt="img" />
-                          <h4>Drag and drop a file to upload</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )} */}
                 {option == "rooms" && (
                   <>
                     <div className="col-lg-3 col-sm-6 col-12">
@@ -271,30 +287,54 @@ const UpdateManage = () => {
                         <div className="image-upload">
                           <input
                             type="file"
+                            multiple
                             onChange={(e) => {
+                              let arr = [];
+                              let files = [];
+                              for (let file of e.target.files) {
+                                arr.push(URL.createObjectURL(file));
+                                files.push(file);
+                              }
+                              setVirtualImg(arr);
                               setData((prevState) => {
-                                prevState["files"] = e.target.files[0];
+                                prevState["files"] = files;
                                 return prevState;
                               });
                             }}
                           />
+
                           <div className="image-uploads">
-                            {/* <img src={data?.["medias"]?.[0].url} alt="img" /> */}
+                            <div className="image-uploads-imgs">
+                              {virtualOldImg &&
+                                virtualOldImg.map((img, index) => (
+                                  <div className="image-uploads-img">
+                                    <img src={img} alt="img" />
+                                    <div
+                                      className="image-uploads-icon"
+                                      onClick={(e) => handleDeleteImage(index)}
+                                    >
+                                      <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                  </div>
+                                ))}
+                              {virtualImg &&
+                                virtualImg.map((img, index) => (
+                                  <div className="image-uploads-img">
+                                    <img src={img} alt="img" />
+                                    <div
+                                      className="image-uploads-icon"
+                                      onClick={(e) => handleDeleteImage(index)}
+                                    >
+                                      <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>
                       </div>
                     </div>
-                    {data["medias"] &&
-                      data["medias"].map((media) => (
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                          <img
-                            style={{ width: "50px", marginLeft: "12px" }}
-                            key={media.id}
-                            src={media.url}
-                          />
-                        </div>
-                      ))}
                   </>
                 )}
                 {option == "sales" && (
@@ -357,25 +397,26 @@ const UpdateManage = () => {
                             onChange={(e) => {
                               setData((prevState) => {
                                 prevState["thumbnailFile"] = e.target.files[0];
+                                setVirtualOldImg(
+                                  URL.createObjectURL(e.target.files[0])
+                                );
                                 return prevState;
                               });
                             }}
                           />
                           <div className="image-uploads">
-                            <img src="assets/img/icons/upload.svg" alt="img" />
+                            <div className="image-uploads-imgs">
+                              {virtualOldImg && (
+                                <div className="image-uploads-img">
+                                  <img src={virtualOldImg} alt="img" />
+                                </div>
+                              )}
+                            </div>
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>
                       </div>
                     </div>
-                    {data["thumbnail"] && (
-                      <div style={{ display: "flex", flexWrap: "wrap" }}>
-                        <img
-                          style={{ width: "50px", marginLeft: "12px" }}
-                          src={data.thumbnail}
-                        />
-                      </div>
-                    )}
                   </>
                 )}
                 {option == "posts" && (
@@ -386,15 +427,49 @@ const UpdateManage = () => {
                         <div className="image-upload">
                           <input
                             type="file"
+                            multiple
                             onChange={(e) => {
+                              let arr = [];
+                              let files = [];
+                              for (let file of e.target.files) {
+                                arr.push(URL.createObjectURL(file));
+                                files.push(file);
+                              }
+                              setVirtualImg(arr);
                               setData((prevState) => {
-                                prevState["files"] = e.target.files[0];
+                                prevState["files"] = files;
                                 return prevState;
                               });
                             }}
                           />
+
                           <div className="image-uploads">
-                            <img src="assets/img/icons/upload.svg" alt="img" />
+                            <div className="image-uploads-imgs">
+                              {virtualOldImg &&
+                                virtualOldImg.map((img, index) => (
+                                  <div className="image-uploads-img">
+                                    <img src={img} alt="img" />
+                                    <div
+                                      className="image-uploads-icon"
+                                      onClick={(e) => handleDeleteImage(index)}
+                                    >
+                                      <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                  </div>
+                                ))}
+                              {virtualImg &&
+                                virtualImg.map((img, index) => (
+                                  <div className="image-uploads-img">
+                                    <img src={img} alt="img" />
+                                    <div
+                                      className="image-uploads-icon"
+                                      onClick={(e) => handleDeleteImage(index)}
+                                    >
+                                      <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>

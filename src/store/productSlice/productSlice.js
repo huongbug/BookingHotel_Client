@@ -53,6 +53,21 @@ export const fetchCreateProduct = createAsyncThunk(
   }
 );
 
+export const fetchUpdateProduct = createAsyncThunk(
+  "product",
+  async ({ productId, updateServiceDto }, thunkAPI) => {
+    try {
+      const response = await productService.updateProductById(
+        productId,
+        updateServiceDto
+      );
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
+  }
+);
+
 export const fetchDeleteProduct = createAsyncThunk(
   "sale",
   async (productId, thunkAPI) => {

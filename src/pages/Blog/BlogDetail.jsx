@@ -2,7 +2,7 @@ import Title from "../../components/Title";
 import Introduction from "../../components/About-us/Introduction";
 import Header from "../../components/Header";
 import { useLocation, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { fetchGetPost } from "../../store/postSlice/postSlice";
@@ -10,6 +10,7 @@ import { fetchGetPost } from "../../store/postSlice/postSlice";
 const BlogDetail = () => {
   let { blogId } = useParams();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
   const [blog, setBlog] = useState({});
 
@@ -143,7 +144,10 @@ const BlogDetail = () => {
                     </div>
                     <div className="sc-text">
                       <span>27 Aug 2019</span>
-                      <h5>Brandon Kelley</h5>
+                      <h5>
+                        {Object.keys(user).length > 0 &&
+                          user.lastName.concat(" " + user.firstName)}
+                      </h5>
                       <p>
                         Neque porro qui squam est, qui dolorem ipsum quia dolor
                         sit amet, consectetur, adipisci velit, sed quia non

@@ -114,7 +114,6 @@ const UserManage = () => {
 
   const deleteOption = async (id) => {
     let func;
-    // console.log(id);
     if (option == "rooms") {
       func = fetchDeleteRoom(id);
     } else if (option == "users") {
@@ -146,12 +145,10 @@ const UserManage = () => {
             setTimeout(() => {
               window.location.href = "/admin/" + option;
             }, 2000);
-            // handle result here
           })
           .catch((rejectedValueOrSerializedError) => {
             console.log(rejectedValueOrSerializedError);
             Swal.fire("Có lỗi xảy ra", "", "error");
-            // handle result here
           });
       }
     });

@@ -10,8 +10,8 @@ const AdminHeader = () => {
   const [isBlock, setIsBlock] = useState(false);
   const user = useSelector((state) => state.user.value);
   return (
-    <div className="header">
-      <div className="header-left active">
+    <div className="header" style={{ backgroundColor: "#F8F9FE" }}>
+      <div className="header-left active" style={{ top: "30px" }}>
         <Link className="logo" to="/">
           <img src={logo} alt="" />
         </Link>

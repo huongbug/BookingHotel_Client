@@ -22,6 +22,7 @@ import { fetchGetUser } from "../../store/userSlice/userSlice";
 import { fetchCreatePost } from "../../store/postSlice/postSlice";
 import Modal from "../../components/Modal/Modal";
 import salesInterface from "../../interfaces/sales.interface";
+import "./addManage.scss";
 
 const AddUser = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const AddUser = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [statusModal, setStatusModal] = useState("");
   const [messageModal, setMessageModal] = useState("");
-  const [virtualImg, setVirtualImg] = useState("assets/img/icons/upload.svg");
+  const [virtualImg, setVirtualImg] = useState(["assets/img/icons/upload.svg"]);
 
   const callback = () => {
     setDisplayModal(false);
@@ -78,6 +79,11 @@ const AddUser = () => {
         data.type = "VIP";
       }
       let formData = new FormData();
+      let files = data["files"];
+      delete data["files"];
+      for (let file of files) {
+        formData.append("files", file);
+      }
       for (let i in data) {
         formData.append(i, data[i]);
       }
@@ -100,6 +106,14 @@ const AddUser = () => {
       func = fetchCreateProduct(formData);
     } else if (option == "posts") {
       let formData = new FormData();
+      let files = data["files"];
+      delete data["files"];
+      for (let file of files) {
+        formData.append("files", file);
+      }
+      for (let i in data) {
+        formData.append(i, data[i]);
+      }
       for (let i in data) {
         formData.append(i, data[i]);
       }
@@ -126,6 +140,12 @@ const AddUser = () => {
         console.log(rejectedValueOrSerializedError);
         // handle result here
       });
+  };
+
+  const handleDeleteImage = (index) => {
+    virtualImg.splice(index, 1);
+    console.log(virtualImg);
+    setVirtualImg([...virtualImg]);
   };
 
   return (
@@ -192,7 +212,7 @@ const AddUser = () => {
                           }}
                         />
                         <div className="image-uploads">
-                          <img src={virtualImg} alt="img" />
+                          <img src={virtualImg[0]} alt="img" />
                           <h4>Drag and drop a file to upload</h4>
                         </div>
                       </div>
@@ -209,6 +229,7 @@ const AddUser = () => {
                             width: "100%",
                             height: "100%",
                             padding: "9px",
+                            borderColor: "#DCE0E4",
                           }}
                           onChange={(e) => {
                             setData((prevState) => {
@@ -229,29 +250,41 @@ const AddUser = () => {
                         <div className="image-upload">
                           <input
                             type="file"
+                            multiple
                             onChange={(e) => {
-                              setVirtualImg(
-                                URL.createObjectURL(e.target.files[0])
-                              );
+                              let arr = [];
+                              let files = [];
+                              for (let file of e.target.files) {
+                                arr.push(URL.createObjectURL(file));
+                                files.push(file);
+                              }
+                              setVirtualImg(arr);
                               setData((prevState) => {
-                                prevState["files"] = e.target.files[0];
-                                console.log(e.target.files[0]);
+                                prevState["files"] = files;
                                 return prevState;
                               });
                             }}
                           />
 
                           <div className="image-uploads">
-                            <img
-                              style={
-                                {
-                                  // width: "100px",
-                                  // height: "100px",
-                                }
-                              }
-                              src={virtualImg}
-                              alt="img"
-                            />
+                            <div className="image-uploads-imgs">
+                              {virtualImg &&
+                                virtualImg.map((img, index) => (
+                                  <div className="image-uploads-img">
+                                    <img src={img} alt="img" />
+                                    {img != "assets/img/icons/upload.svg" && (
+                                      <div
+                                        className="image-uploads-icon"
+                                        onClick={(e) =>
+                                          handleDeleteImage(index)
+                                        }
+                                      >
+                                        <i class="fa-solid fa-xmark"></i>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                            </div>
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>
@@ -317,12 +350,27 @@ const AddUser = () => {
                             onChange={(e) => {
                               setData((prevState) => {
                                 prevState["thumbnailFile"] = e.target.files[0];
+                                setVirtualImg(
+                                  URL.createObjectURL(e.target.files[0])
+                                );
                                 return prevState;
                               });
                             }}
                           />
                           <div className="image-uploads">
-                            <img src="assets/img/icons/upload.svg" alt="img" />
+                            <div className="image-uploads-imgs">
+                              {virtualImg && (
+                                <div className="image-uploads-img">
+                                  <img src={virtualImg} alt="img" />
+                                  {virtualImg !=
+                                    "assets/img/icons/upload.svg" && (
+                                    <div className="image-uploads-icon">
+                                      <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>
@@ -338,15 +386,41 @@ const AddUser = () => {
                         <div className="image-upload">
                           <input
                             type="file"
+                            multiple
                             onChange={(e) => {
+                              let arr = [];
+                              let files = [];
+                              for (let file of e.target.files) {
+                                arr.push(URL.createObjectURL(file));
+                                files.push(file);
+                              }
+                              setVirtualImg(arr);
                               setData((prevState) => {
-                                prevState["files"] = e.target.files[0];
+                                prevState["files"] = files;
                                 return prevState;
                               });
                             }}
                           />
+
                           <div className="image-uploads">
-                            <img src="assets/img/icons/upload.svg" alt="img" />
+                            <div className="image-uploads-imgs">
+                              {virtualImg &&
+                                virtualImg.map((img, index) => (
+                                  <div className="image-uploads-img">
+                                    <img src={img} alt="img" />
+                                    {img != "assets/img/icons/upload.svg" && (
+                                      <div
+                                        className="image-uploads-icon"
+                                        onClick={(e) =>
+                                          handleDeleteImage(index)
+                                        }
+                                      >
+                                        <i class="fa-solid fa-xmark"></i>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                            </div>
                             <h4>Drag and drop a file to upload</h4>
                           </div>
                         </div>

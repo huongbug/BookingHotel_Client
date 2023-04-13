@@ -6,50 +6,22 @@ import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import { fetchUpdateUser } from "../../store/userSlice/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 const User = () => {
   const user = useSelector((state) => state.user.value);
 
-  const [email, setEmail] = useState(user.email);
-  const [password, setPassword] = useState(user.password);
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [gender, setGender] = useState(user.gender);
-  const [birthday, setBirthday] = useState(user.birthday);
-  const [address, setAddress] = useState(user.address);
-  const [avatar, setAvatar] = useState(user.address);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [address, setAddress] = useState("");
+  const [avatar, setAvatar] = useState("");
   const dispatch = useDispatch();
 
-  const updateUser = (async (e) => {
-    e.preventDefault();
-    alert("ok");
-    return;
-    const result = await dispatch(
-      fetchUpdateUser({
-        userId: user.id,
-        updateUserDto: {
-          email,
-          password,
-          phoneNumber,
-          firstName,
-          lastName,
-          gender,
-          birthday,
-          address,
-          avatar,
-        },
-      })
-    )
-      .then(unwrapResult)
-      .then((originalPromiseResult) => {
-        const data = originalPromiseResult.data;
-      })
-      .catch((rejectedValueOrSerializedError) => {
-        console.log(rejectedValueOrSerializedError);
-        // handle result here
-      });
-  })();
   return (
     <>
       <Header />
@@ -73,11 +45,43 @@ const User = () => {
                 </div>
                 <div className="card-body">
                   <form
-                    // onSubmit={(e) => {
-                    //   e.preventDefault();
-                    //   alert("ok");
-                    // }}
-                    onSubmit={updateUser}
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      let formData = new FormData();
+                      console.log(email, password, phoneNumber, firstName);
+                      formData.append("email", email || user.email);
+                      formData.append("password", password || user.password);
+                      formData.append(
+                        "phoneNumber",
+                        phoneNumber || user.phoneNumber
+                      );
+                      formData.append("firstName", firstName || user.firstName);
+                      formData.append("lastName", lastName || user.lastName);
+                      formData.append("gender", gender || user.gender);
+                      formData.append("birthday", birthday || user.birthday);
+                      formData.append("address", address || user.address);
+                      formData.append("fileAvatar", avatar || user.avatar);
+                      const result = await dispatch(
+                        fetchUpdateUser({
+                          userId: user.id,
+                          updateUserDto: formData,
+                        })
+                      )
+                        .then(unwrapResult)
+                        .then((originalPromiseResult) => {
+                          console.log(originalPromiseResult);
+                          if (originalPromiseResult.status == "SUCCESS") {
+                            Swal.fire("Cập nhật thành công", "", "success");
+                          } else {
+                            Swal.fire("Có lỗi xảy ra", "", "error");
+                          }
+                          // const data = originalPromiseResult.data;
+                        })
+                        .catch((rejectedValueOrSerializedError) => {
+                          console.log(rejectedValueOrSerializedError);
+                          // handle result here
+                        });
+                    }}
                   >
                     <h6 className="heading-small text-muted mb-4">
                       User information
@@ -98,7 +102,7 @@ const User = () => {
                               className="form-control form-control-alternative"
                               placeholder="Email"
                               defaultValue={user && user.email}
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setEmail(e.target.value);
                               }}
                             />
@@ -118,7 +122,7 @@ const User = () => {
                               className="form-control form-control-alternative"
                               placeholder="jesse@.com"
                               defaultValue={user && user.phoneNumber}
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setPhoneNumber(e.target.value);
                               }}
                             />
@@ -140,7 +144,7 @@ const User = () => {
                               className="form-control form-control-alternative"
                               placeholder="First name"
                               defaultValue={user && user.firstName}
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setFirstName(e.target.value);
                               }}
                             />
@@ -160,7 +164,7 @@ const User = () => {
                               className="form-control form-control-alternative"
                               placeholder="Last name"
                               defaultValue={user && user.lastName}
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setLastName(e.target.value);
                               }}
                             />
@@ -189,7 +193,7 @@ const User = () => {
                               className="form-control form-control-alternative"
                               placeholder="City"
                               defaultValue={user && user.address}
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setAddress(e.target.value);
                               }}
                             />
@@ -209,7 +213,7 @@ const User = () => {
                               className="form-control form-control-alternative"
                               placeholder="Postal code"
                               defaultValue={user && user.birthday}
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setBirthday(e.target.value);
                               }}
                             />
@@ -227,7 +231,7 @@ const User = () => {
                               className="custom-select"
                               style={{ width: "100%", height: "100%" }}
                               id="guest"
-                              onchange={(e) => {
+                              onChange={(e) => {
                                 setGender(e.target.value);
                               }}
                             >
@@ -260,8 +264,8 @@ const User = () => {
                                   id="input-city"
                                   className="form-control form-control-alternative mb-4"
                                   placeholder="City"
-                                  onchange={(e) => {
-                                    setAvatar(e.target.value);
+                                  onChange={(e) => {
+                                    setAvatar(e.target.files[0]);
                                   }}
                                 />
                                 <img
@@ -280,8 +284,8 @@ const User = () => {
                                 id="input-city"
                                 className="form-control form-control-alternative"
                                 placeholder="City"
-                                onchange={(e) => {
-                                  setAvatar(e.target.value);
+                                onChange={(e) => {
+                                  setAvatar(e.target.files[0]);
                                 }}
                               />
                             )}
