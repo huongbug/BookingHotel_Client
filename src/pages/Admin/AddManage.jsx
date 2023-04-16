@@ -238,8 +238,43 @@ const AddUser = () => {
                             });
                           }}
                         >
-                          <option value="VIP">VIP</option>
-                          <option value="Normal">Normal</option>
+                          <option value="Standard Single">
+                            Standard Single
+                          </option>
+                          <option value="Standard Double">
+                            Standard Double
+                          </option>
+                          <option value="Standard Twin">Standard Twin</option>
+                          <option value="Superior Double">
+                            Superior Double
+                          </option>
+                          <option value="Superior Twin">Superior Twin</option>
+                          <option value="Superior King">Superior King</option>
+                          <option value="Deluxe Double">Deluxe Double</option>
+                          <option value="Deluxe Double Sea View">
+                            Deluxe Double Sea View
+                          </option>
+                          <option value="Deluxe Twin">Deluxe Twin</option>
+                          <option
+                            value="
+                            Deluxe Twin Sea View"
+                          >
+                            Deluxe Twin Sea View
+                          </option>
+                          <option value="Deluxe King">Deluxe King</option>
+                          <option value="Deluxe King Sea View">
+                            Deluxe King Sea View
+                          </option>
+                          <option value="Deluxe Triple">Deluxe Triple</option>
+                          <option value="Deluxe Triple Sea View">
+                            Deluxe Triple Sea View
+                          </option>
+                          <option value="Junior Suite">Junior Suite</option>
+                          <option value="Family Suite">Family Suite</option>
+                          <option value="Senior Suite">Senior Suite</option>
+                          <option value="Executive Suite">
+                            Executive Suite
+                          </option>
                         </select>
                       </div>
                     </div>

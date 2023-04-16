@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import adminDashboard from "../assets/img/admin/adminDashboard.png";
 
-const AdminSIdeBar = () => {
+const AdminSIdeBar = ({ option }) => {
   const sideBars = [
     {
       path: "/admin/users",
@@ -33,33 +33,10 @@ const AdminSIdeBar = () => {
       name: "Manage Bookings",
     },
   ];
+  console.log(option.charAt(0).toUpperCase() + option.slice(1));
 
   return (
     <>
-      {/* <div style={{ backgroundColor: "blue" }} className="sidebar" id="sidebar">
-        <div className="sidebar-inner slimscroll">
-          <div id="sidebar-menu" className="sidebar-menu">
-            <ul>
-              <li>
-                <a href="index.html">
-                  <img src="assets/img/icons/dashboard.svg" alt="img" />
-                  <span> Dashboard</span>
-                </a>
-              </li>
-
-              <li className="">
-                <ul>
-                  {sideBars.map((sideBar) => (
-                    <li style={{ padding: "12px" }}>
-                      <Link to={sideBar.path}>{sideBar.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div> */}
       <div className="sidebar" id="sidebar">
         <div
           className="slimScrollDiv"
@@ -84,7 +61,17 @@ const AdminSIdeBar = () => {
                   <ul style={{ display: "block" }}>
                     {sideBars.map((sideBar, index) => (
                       <li key={index} style={{ padding: "12px" }}>
-                        <Link to={sideBar.path}>{sideBar.name}</Link>
+                        <Link
+                          className={
+                            sideBar.name.split(" ")[1] ==
+                            option.charAt(0).toUpperCase() + option.slice(1)
+                              ? "active"
+                              : ""
+                          }
+                          to={sideBar.path}
+                        >
+                          {sideBar.name}
+                        </Link>
                       </li>
                     ))}
                   </ul>

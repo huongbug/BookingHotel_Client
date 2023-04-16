@@ -26,11 +26,19 @@ class BookingService {
     );
   }
 
-  async createBooking(bookingCreateDTO) {
+  async createBooking(createBookingDto) {
     return await this.httpService.request(
       "POST",
       `${process.env.REACT_APP_API_URL}/api/v1/booking/create`,
-      { body: bookingCreateDTO }
+      { body: createBookingDto }
+    );
+  }
+
+  async cancelBooking(bookingId, bookingCancelDTO) {
+    return await this.httpService.request(
+      "POST",
+      `${process.env.REACT_APP_API_URL}/api/v1/booking/cancel/${bookingId}`,
+      { body: bookingCancelDTO }
     );
   }
 

@@ -9,7 +9,15 @@ import edit from "../../assets/img/admin/edit.png";
 import adminDelete from "../../assets/img/admin/adminDelete.png";
 import lock from "../../assets/img/admin/lock.png";
 import { Link } from "react-router-dom";
-const Card = ({ option, data, keys, deleteOption, deleteFlag }) => {
+import { MDBIcon } from "mdb-react-ui-kit";
+const Card = ({
+  option,
+  data,
+  keys,
+  deleteOption,
+  revertOption,
+  deleteFlag,
+}) => {
   return (
     <>
       <div className="card">
@@ -140,7 +148,7 @@ const Card = ({ option, data, keys, deleteOption, deleteFlag }) => {
                             <img src={eye} alt="img" />
                           </Link>
                         )}
-                        {option != "bookings" && (
+                        {option != "bookings" && !deleteFlag && (
                           <>
                             <Link
                               className="me-3"
@@ -152,6 +160,26 @@ const Card = ({ option, data, keys, deleteOption, deleteFlag }) => {
                               className="me-3 confirm-text"
                               href="#"
                               onClick={() => deleteOption(item["id"])}
+                              style={{ marginLeft: "12px" }}
+                            >
+                              <img src={adminDelete} alt="img" />
+                            </a>
+                          </>
+                        )}
+                        {option != "bookings" && deleteFlag && (
+                          <>
+                            <a
+                              className="me-3 confirm-text"
+                              href="#"
+                              onClick={() => revertOption(item["id"])}
+                            >
+                              <MDBIcon fas icon="redo" />
+                            </a>
+                            <a
+                              className="me-3 confirm-text"
+                              href="#"
+                              onClick={() => deleteOption(item["id"])}
+                              style={{ marginLeft: "12px" }}
                             >
                               <img src={adminDelete} alt="img" />
                             </a>

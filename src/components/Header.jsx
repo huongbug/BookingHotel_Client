@@ -60,7 +60,7 @@ const Header = () => {
                             </li>
                           )}
                           <li style={{ padding: "8px" }}>
-                            <Link to="/booking-detail">Booking Detail</Link>
+                            <Link to="/booking-cart">Booking Cart</Link>
                           </li>
                           <li
                             onClick={() => {

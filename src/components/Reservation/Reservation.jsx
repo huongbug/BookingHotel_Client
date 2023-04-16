@@ -19,9 +19,10 @@ const Reservation = ({
   const dispatch = useDispatch();
   useEffect(() => {
     // console.log(services);
-    if (Object.keys(room).length > 0) {
-      setPrice((prev) => prev + room.price);
-    }
+    // if (Object.keys(room).length > 0) {
+    //   setPrice((prev) => prev + room.price);
+    // }
+    setPrice(room.price);
     if (services?.length > 0) {
       setPrice((prev) => prev + services[services.length - 1].price);
     }
@@ -60,13 +61,13 @@ const Reservation = ({
       <div className="d-flex justify-content-between mb-3">
         <div className="font-weight-bold">Title</div>
         <div>
-          <strong>{room && room.title}</strong>
+          <strong>{room && room.name}</strong>
         </div>
       </div>
       <div className="d-flex justify-content-between mb-3">
         <div className="font-weight-bold">People</div>
         <div>
-          <strong>{num}</strong>
+          <strong>{num || room.capacity}</strong>
         </div>
       </div>
       <div className="d-flex justify-content-between mb-3">
@@ -82,7 +83,13 @@ const Reservation = ({
               <div className="d-flex justify-content-between mb-3">
                 <div className="font-weight-bold">{service.title}</div>
                 <div>
-                  <strong>{service.price}</strong>
+                  <strong>
+                    {" "}
+                    {service.price.toLocaleString("it-IT", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </strong>
                 </div>
               </div>
             </>
@@ -106,15 +113,14 @@ const Reservation = ({
               Total
             </div>
           </div>
-          <div className="price">{price}€</div>
+          <div className="price">
+            {price &&
+              price.toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })}
+          </div>
         </div>
-        {/* {services &&
-          services.map((item) => (
-            <div key={item.id}>
-              <div>{item.name}</div>
-              <div>€ {item.price}</div>
-            </div>
-          ))} */}
       </div>
       <button
         type="button"
@@ -127,18 +133,19 @@ const Reservation = ({
               alert("Vui lòng chọn phòng");
             }
           } else if (step == 2) {
-            if (num == 0) {
+            if (!(num == 0 || !room.capacity)) {
               alert("Vui lòng điền đầy đủ Check in, Check out");
             } else {
-              console.log({
-                roomId: room.id,
-                expectedCheckIn,
-                expectedCheckOut,
-                services,
-              });
+              // console.log({
+              //   roomId: room.id,
+              //   expectedCheckIn,
+              //   expectedCheckOut,
+              //   services,
+              // });
               const servicesUpdate = services.map((service) => {
-                return { serviceId: service.id, amount: service.price };
+                return { serviceId: service.id, amount: 1 };
               });
+
               const result = await dispatch(
                 fetchCreateBooking({
                   roomIds: [room.id],
@@ -149,9 +156,10 @@ const Reservation = ({
               )
                 .then(unwrapResult)
                 .then((originalPromiseResult) => {
+                  console.log(originalPromiseResult);
                   if (originalPromiseResult.status == "SUCCESS") {
-                    console.log(originalPromiseResult);
-                    Swal.fire("Đặt hàng thành công", "", "success");
+                    Swal.fire("Đặt phòng thành công", "", "success");
+                    reservation(step + 1);
                   } else {
                     Swal.fire("Có lỗi xảy ra", "", "error");
                   }

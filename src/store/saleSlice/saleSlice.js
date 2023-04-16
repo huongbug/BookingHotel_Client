@@ -8,8 +8,8 @@ const saleService = new SaleService();
 // First, create the thunk
 export const fetchGetSales = createAsyncThunk(
   "/sales",
-  async (deleteFlag, thunkAPI) => {
-    const response = await saleService.getSales(deleteFlag);
+  async (options, thunkAPI) => {
+    const response = await saleService.getSales(options);
     return response.data;
   }
 );
@@ -67,6 +67,22 @@ export const fetchDeleteSale = createAsyncThunk(
   "sale",
   async (saleId, thunkAPI) => {
     const response = await saleService.deleteSaleById(saleId);
+    return response.data;
+  }
+);
+
+export const fetchRevertSale = createAsyncThunk(
+  "sale",
+  async (saleId, thunkAPI) => {
+    const response = await saleService.revertSaleById(saleId);
+    return response.data;
+  }
+);
+
+export const fetchDeletePermanentlySale = createAsyncThunk(
+  "sale",
+  async (saleId, thunkAPI) => {
+    const response = await saleService.deleteSalePermanentlyById(saleId);
     return response.data;
   }
 );

@@ -85,8 +85,22 @@ export const fetchCreateBooking = createAsyncThunk(
       const response = await bookingService.createBooking(createBookingDto);
       return response.data;
     } catch (err) {
-      console.log(err);
-      return err.response;
+      return err.response.data;
+    }
+  }
+);
+
+export const fetchCancelBooking = createAsyncThunk(
+  "booking",
+  async ({ bookingId, cancelBookingDto }, thunkAPI) => {
+    try {
+      const response = await bookingService.cancelBooking(
+        bookingId,
+        cancelBookingDto
+      );
+      return response.data;
+    } catch (err) {
+      return err.response.data;
     }
   }
 );

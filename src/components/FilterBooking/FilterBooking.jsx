@@ -32,7 +32,7 @@ function FilterBooking({ filter }) {
     setDateFormat(new Date(), "checkout")
   );
   const [num, setNum] = useState("");
-  const [type, setType] = useState("VIP");
+  const [type, setType] = useState("");
   const today = new Date();
   let newData = {};
 
@@ -125,8 +125,10 @@ function FilterBooking({ filter }) {
               }}
             >
               <option value={""}>Choose type room</option>
-              <option value={"VIP"}>VIP</option>
-              <option value={"Normal"}>Normal</option>
+              <option value="Standard">Standard</option>
+              <option value="Superior">Superior</option>
+              <option value="Deluxe">Deluxe</option>
+              <option value="Suite">Suite</option>
             </select>
           </div>
         </div>
@@ -139,7 +141,7 @@ function FilterBooking({ filter }) {
         }}
         style={{ backgroundColor: "#5892b5 !important" }}
       >
-        Filter rooms
+        Check available
       </button>
     </div>
   );

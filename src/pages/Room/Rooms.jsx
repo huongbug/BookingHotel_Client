@@ -1,5 +1,6 @@
 import Title from "../../components/Title";
 import Header from "../../components/Header";
+import OwlCarousel from "react-owl-carousel";
 
 import flag from "../../assets/img/flag.jpg";
 import room1 from "../../assets/img/room/room-1.jpg";
@@ -20,10 +21,15 @@ import { Link } from "react-router-dom";
 const Rooms = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
+  const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     (async () => {
-      const result = await dispatch(fetchGetAvailableRooms({}))
+      const result = await dispatch(
+        fetchGetAvailableRooms({
+          pageNum: pageNum,
+        })
+      )
         .then(unwrapResult)
         .then((originalPromiseResult) => {
           setRooms(originalPromiseResult.data.items);
@@ -38,7 +44,7 @@ const Rooms = () => {
     })();
 
     // return () => {}; // no-op
-  }, []);
+  }, [pageNum]);
 
   return (
     <div>
@@ -53,16 +59,42 @@ const Rooms = () => {
               rooms.map((room) => {
                 return (
                   <div key={room.id} className="col-lg-4 col-md-6">
-                    <div className="room-item">
-                      <img
-                        style={{ height: "250px", width: "100%" }}
-                        src={room?.medias?.[0]?.url}
-                        alt=""
-                      />
+                    <div
+                      style={{ boxShadow: "0 0 10px #8888" }}
+                      className="room-item"
+                    >
+                      <OwlCarousel
+                        style={{
+                          // position: "absolute",
+                          top: "0",
+                          width: "100%",
+                        }}
+                        className="owl-main hero-slider"
+                        items={1}
+                        loop
+                      >
+                        {room?.medias?.map((media) => {
+                          return (
+                            <div className="item hs-item set-bg">
+                              <img
+                                style={{ height: "250px", width: "100%" }}
+                                src={media.url}
+                                alt=""
+                              />
+                            </div>
+                          );
+                        })}
+                      </OwlCarousel>
+
                       <div className="ri-text">
-                        <h4>{room.title}</h4>
+                        <h4>{room.name}</h4>
                         <h3>
-                          {room.price}$<span>/Pernight</span>
+                          {room &&
+                            room?.price?.toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          {/* {room.price} VNĐ<span>/Pernight</span> */}
                         </h3>
                         <table>
                           <tbody>
@@ -72,11 +104,15 @@ const Rooms = () => {
                             </tr>
                             <tr>
                               <td className="r-o">Capacity:</td>
-                              <td>Max persion {room.maxNum}</td>
+                              <td>Max persion {room.capacity}</td>
                             </tr>
                             <tr>
-                              <td className="r-o">Floor:</td>
-                              <td>{room.floor}</td>
+                              <td className="r-o">Bed:</td>
+                              <td>{room.bed}</td>
+                            </tr>
+                            <tr>
+                              <td className="r-o">Size:</td>
+                              <td>{room.size}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -86,6 +122,14 @@ const Rooms = () => {
                         >
                           More Details
                         </Link>
+                        {!room.isAvailable && (
+                          <div
+                            style={{ marginLeft: "8px", color: "red" }}
+                            className="primary-btn"
+                          >
+                            Booked
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -93,9 +137,25 @@ const Rooms = () => {
               })}
             <div className="col-lg-12">
               <div className="room-pagination">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">
+                {pageNum != 1 && (
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPageNum(pageNum - 1);
+                    }}
+                  >
+                    <i className="fa fa-long-arrow-left" /> Prev
+                  </a>
+                )}
+                <a href="#">{pageNum}</a>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPageNum(pageNum + 1);
+                  }}
+                  href="#"
+                >
                   Next <i className="fa fa-long-arrow-right" />
                 </a>
               </div>

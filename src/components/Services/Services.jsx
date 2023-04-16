@@ -13,6 +13,7 @@ const Services = ({ serviceCallBack }) => {
       const result = await dispatch(fetchGetHotelServices())
         .then(unwrapResult)
         .then((originalPromiseResult) => {
+          console.log(originalPromiseResult.data.items);
           setServices(originalPromiseResult.data.items);
           // console.log(services);
           // handle result here
@@ -39,7 +40,11 @@ const Services = ({ serviceCallBack }) => {
                   ? service.description
                   : service.description.slice(0, 126).concat("...")}
               </p>
-              <h6>{service.price}€</h6>
+              {service &&
+                service?.price?.toLocaleString("it-IT", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               <button
                 class="btn btn-link p-0"
                 onClick={(e) => {

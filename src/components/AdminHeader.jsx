@@ -34,7 +34,7 @@ const AdminHeader = () => {
             data-bs-toggle="dropdown"
           >
             <span className="user-img">
-              <img src={avatar} alt="" />
+              <img src={user && user.avatar} alt="" />
               <span className="status online" />
             </span>
           </a>
@@ -49,7 +49,7 @@ const AdminHeader = () => {
             <div className="profilename">
               <div className="profileset">
                 <span className="user-img">
-                  <img src={avatar} alt="" />
+                  <img src={user && user.avatar} alt="" />
                   <span className="status online" />
                 </span>
                 <div className="profilesets">

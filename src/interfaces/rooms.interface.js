@@ -1,9 +1,11 @@
 export default {
   id: "",
-  title: "",
+  name: "",
   price: "",
   type: "",
-  maxNum: "",
-  floor: "",
+  capacity: "",
+  size: "",
+  bed: "",
   description: "",
+  services: "",
 };

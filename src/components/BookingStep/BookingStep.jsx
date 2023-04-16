@@ -36,6 +36,7 @@ const Booking = ({
         />
       )}
       {step == 2 && <Services serviceCallBack={serviceCallBack} />}
+      {step == 3 && <div>Đặt phòng thành công!!</div>}
     </>
   );
 };
