@@ -133,7 +133,7 @@ const Reservation = ({
               alert("Vui lòng chọn phòng");
             }
           } else if (step == 2) {
-            if (!(num == 0 || !room.capacity)) {
+            if (num == 0 || !room.capacity) {
               alert("Vui lòng điền đầy đủ Check in, Check out");
             } else {
               // console.log({
