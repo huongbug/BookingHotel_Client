@@ -8,8 +8,15 @@ import eye from "../../assets/img/admin/eye.png";
 import edit from "../../assets/img/admin/edit.png";
 import adminDelete from "../../assets/img/admin/adminDelete.png";
 import lock from "../../assets/img/admin/lock.png";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
+import {
+  fetchAddSaleToRoom,
+  fetchGetSales,
+} from "../../store/saleSlice/saleSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 const Card = ({
   option,
   data,
@@ -18,6 +25,8 @@ const Card = ({
   revertOption,
   deleteFlag,
 }) => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <div className="card">
@@ -140,6 +149,93 @@ const Card = ({
                           to={"/admin/update/" + option + "/" + item["id"]}
                           style={{ marginRight: "8px" }}
                         ></Link>
+                        {option == "rooms" && (
+                          <a
+                            className="me-3 confirm-text"
+                            href="#"
+                            onClick={async () => {
+                              let sales;
+                              const func = fetchGetSales({
+                                deleteFlag: false,
+                              });
+                              const result = await dispatch(func)
+                                .then(unwrapResult)
+                                .then((originalPromiseResult) => {
+                                  console.log(originalPromiseResult);
+                                  if (
+                                    originalPromiseResult.status == "SUCCESS"
+                                  ) {
+                                    sales = originalPromiseResult.data.items;
+                                  }
+                                })
+                                .catch((rejectedValueOrSerializedError) => {
+                                  console.log(rejectedValueOrSerializedError);
+                                });
+                              let salesObject = {};
+                              sales.forEach((sale) => {
+                                salesObject[sale.id] = `${
+                                  sale.salePercent
+                                }% - ${sale.dayStart.split("T")[0]} đến ${
+                                  sale.dayEnd.split("T")[0]
+                                }`;
+                              });
+
+                              const { value: fruit } = await Swal.fire({
+                                title: "Select sales",
+                                input: "select",
+                                inputOptions: {
+                                  Sales: salesObject,
+                                },
+                                inputPlaceholder: "Select sale",
+                                showCancelButton: true,
+                                inputValidator: async (value) => {
+                                  if (value) {
+                                    const result = await dispatch(
+                                      fetchAddSaleToRoom({
+                                        saleId: value,
+                                        roomId: item["id"],
+                                      })
+                                    )
+                                      .then(unwrapResult)
+                                      .then((originalPromiseResult) => {
+                                        console.log(originalPromiseResult);
+                                        if (
+                                          originalPromiseResult.status ==
+                                          "SUCCESS"
+                                        ) {
+                                          Swal.fire(
+                                            "Thêm sale thành công",
+                                            "",
+                                            "success"
+                                          );
+                                        } else {
+                                          // Swal.fire(
+                                          //   originalPromiseResult.message,
+                                          //   "",
+                                          //   "error"
+                                          // );
+                                        }
+                                      })
+                                      .catch(
+                                        (rejectedValueOrSerializedError) => {
+                                          console.log(
+                                            rejectedValueOrSerializedError
+                                          );
+                                        }
+                                      );
+                                  }
+                                },
+                              });
+
+                              // if (fruit) {
+                              //   Swal.fire(`You selected: ${fruit}`);
+                              // }
+                            }}
+                            style={{ marginRight: "12px" }}
+                          >
+                            <MDBIcon fas icon="plus-circle" />
+                          </a>
+                        )}
                         {option == "bookings" && (
                           <Link
                             className="me-3"

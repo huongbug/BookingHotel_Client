@@ -103,6 +103,7 @@ const UpdateManage = () => {
         .then(unwrapResult)
         .then((originalPromiseResult) => {
           const data = originalPromiseResult.data;
+          console.log(data);
           setData(data);
           if (data?.medias) {
             // let urls = data.medias.map((media) => media.url);
@@ -227,7 +228,7 @@ const UpdateManage = () => {
         // status="success"
       />
       <AdminHeader />
-      <AdminSIdeBar />
+      <AdminSIdeBar option={option} />
       <div className="page-wrapper">
         <div className="content">
           <div className="page-header">
@@ -235,9 +236,7 @@ const UpdateManage = () => {
               <h4>
                 {option.charAt(0).toUpperCase() + option.slice(1)} Management
               </h4>
-              <h6>
-                Add/Update {option.charAt(0).toUpperCase() + option.slice(1)}
-              </h6>
+              <h6>Update {option.charAt(0).toUpperCase() + option.slice(1)}</h6>
             </div>
           </div>
           <div className="card">
@@ -252,6 +251,7 @@ const UpdateManage = () => {
                           onChange={(e) => {
                             setData((prevState) => {
                               prevState[key] = e.target.value;
+                              console.log(prevState);
                               return prevState;
                             });
                             setValue(e.target.value);
@@ -384,7 +384,7 @@ const UpdateManage = () => {
                             });
                             setValue(e.target.value);
                           }}
-                          value={data["dayStart"]}
+                          value={data["dayEnd"]}
                         />
                       </div>
                     </div>

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import adminDashboard from "../assets/img/admin/adminDashboard.png";
 
 const AdminSIdeBar = ({ option }) => {
+  const [show, setShow] = useState(false);
+
   const sideBars = [
     {
       path: "/admin/users",
@@ -33,7 +35,8 @@ const AdminSIdeBar = ({ option }) => {
       name: "Manage Bookings",
     },
   ];
-  console.log(option.charAt(0).toUpperCase() + option.slice(1));
+
+  // console.log(option.charAt(0).toUpperCase() + option.slice(1));
 
   return (
     <>
@@ -54,11 +57,11 @@ const AdminSIdeBar = ({ option }) => {
             <div id="sidebar-menu" className="sidebar-menu">
               <ul>
                 <li className="submenu">
-                  <a className="active">
+                  <a onClick={() => setShow(!show)} className="active">
                     <img src={adminDashboard} alt="img" />
                     <span> Dashboards</span> <span className="menu-arrow" />
                   </a>
-                  <ul style={{ display: "block" }}>
+                  <ul style={{ display: show ? "block" : "none" }}>
                     {sideBars.map((sideBar, index) => (
                       <li key={index} style={{ padding: "12px" }}>
                         <Link

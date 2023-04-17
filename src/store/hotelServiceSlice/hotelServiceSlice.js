@@ -98,6 +98,19 @@ export const fetchDeletePermanentlyHotelService = createAsyncThunk(
   }
 );
 
+export const fetchGetProductsByService = createAsyncThunk(
+  "/hotels",
+  async (serviceId, thunkAPI) => {
+    try {
+      const response = await hotelService.getProductsByServices(serviceId);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response;
+    }
+  }
+);
+
 const initialState = {
   entities: [],
   loading: "idle",

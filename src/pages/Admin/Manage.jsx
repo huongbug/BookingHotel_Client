@@ -115,7 +115,15 @@ const UserManage = () => {
         .then(unwrapResult)
         .then((originalPromiseResult) => {
           console.log(originalPromiseResult);
-          const data = originalPromiseResult.data.items;
+          let data = originalPromiseResult.data.items;
+          if (option == "rooms") {
+            data = data.map((item) => {
+              if (item.sale.salePercent) {
+                item["discount"] = item.sale.salePercent + "%";
+              }
+              return item;
+            });
+          }
           setData(data);
         })
         .catch((rejectedValueOrSerializedError) => {
@@ -172,6 +180,7 @@ const UserManage = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Chấp nhận",
+      cancelButtonText: "Hủy bỏ",
     }).then(async (e) => {
       if (e.isConfirmed) {
         const result = await dispatch(func)
@@ -249,10 +258,10 @@ const UserManage = () => {
               </div>
               {option != "users" && option != "bookings" && (
                 <div className="page-btn">
-                  <a href={"/admin/add/" + option} className="btn btn-added">
+                  <Link className="btn btn-added" to={"/admin/add/" + option}>
                     <img src={adminPlus} alt="img" />
                     Add {option}
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

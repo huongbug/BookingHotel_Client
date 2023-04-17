@@ -23,6 +23,13 @@ class SaleService {
     );
   }
 
+  async AddSaleToRoom(saleId, roomId) {
+    return await this.httpService.request(
+      "POST",
+      `${process.env.REACT_APP_API_URL}/api/v1/sale/add/room/${saleId}/${roomId}`
+    );
+  }
+
   async getSaleById(saleId) {
     return await this.httpService.request(
       "GET",

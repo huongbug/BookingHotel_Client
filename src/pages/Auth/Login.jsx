@@ -264,10 +264,10 @@ const Login = () => {
                             });
                         },
                       }).then(async (result) => {
+                        const email = result.value;
                         if (!email) {
                           return;
                         }
-                        const email = result.value;
                         Swal.fire({
                           title: "Your token is sent to " + email,
                           html: `<input type="text" id="token" class="swal2-input" placeholder="Your token">

@@ -38,11 +38,15 @@ const RoomIntroduction = ({ rooms }) => {
                               </tr>
                               <tr>
                                 <td className="r-o">Capacity:</td>
-                                <td>Max persion {room.maxNum}</td>
+                                <td>Max persion {room.capacity}</td>
                               </tr>
                               <tr>
-                                <td className="r-o">Floor:</td>
-                                <td>{room.floor}</td>
+                                <td className="r-o">Bed:</td>
+                                <td>{room.bed}</td>
+                              </tr>
+                              <tr>
+                                <td className="r-o">Size:</td>
+                                <td>{room.size}</td>
                               </tr>
                             </tbody>
                           </table>

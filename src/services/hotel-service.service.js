@@ -70,6 +70,13 @@ class HotelServiceService {
       `${process.env.REACT_APP_API_URL}/api/v1/service/delete/trash${serviceId}`
     );
   }
+
+  async getProductsByServices(serviceId) {
+    return await this.httpService.request(
+      "GET",
+      `${process.env.REACT_APP_API_URL}/api/v1/service/${serviceId}/products`
+    );
+  }
 }
 
 export default HotelServiceService;

@@ -9,8 +9,12 @@ const saleService = new SaleService();
 export const fetchGetSales = createAsyncThunk(
   "/sales",
   async (options, thunkAPI) => {
-    const response = await saleService.getSales(options);
-    return response.data;
+    try {
+      const response = await saleService.getSales(options);
+      return response.data;
+    } catch (err) {
+      return err.response.data;
+    }
   }
 );
 
@@ -47,6 +51,19 @@ export const fetchCreateSale = createAsyncThunk(
     } catch (err) {
       console.log(err);
       return err.response;
+    }
+  }
+);
+
+export const fetchAddSaleToRoom = createAsyncThunk(
+  "room",
+  async ({ saleId, roomId }, thunkAPI) => {
+    try {
+      const response = await saleService.AddSaleToRoom(saleId, roomId);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err.response.data;
     }
   }
 );

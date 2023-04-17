@@ -8,4 +8,5 @@ export default {
   bed: "",
   description: "",
   services: "",
+  discount: "",
 };
