@@ -14,7 +14,7 @@ export const fetchGetHotelServicesAdmin = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -27,7 +27,7 @@ export const fetchGetHotelServices = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -40,7 +40,7 @@ export const fetchGetHotelService = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -56,7 +56,7 @@ export const fetchUpdateHotelService = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -69,7 +69,7 @@ export const fetchCreateHotelServices = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -106,7 +106,7 @@ export const fetchGetProductsByService = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );

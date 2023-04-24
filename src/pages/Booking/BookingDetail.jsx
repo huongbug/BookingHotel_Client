@@ -8,10 +8,12 @@ import { useParams } from "react-router-dom";
 import OwlCarousel from "react-owl-carousel";
 import Swal from "sweetalert2";
 import storageService from "../../services/storage.service";
+import { fetchGetProductsByService } from "../../store/hotelServiceSlice/hotelServiceSlice";
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
   const [booking, setBooking] = useState();
+  const [products, setProducts] = useState({});
   let { bookingId } = useParams();
 
   const user = useSelector((state) => state.user.value);
@@ -20,8 +22,22 @@ const BookingDetail = () => {
     (async () => {
       const result = await dispatch(fetchGetBooking(bookingId))
         .then(unwrapResult)
-        .then((originalPromiseResult) => {
-          console.log(originalPromiseResult.data);
+        .then(async (originalPromiseResult) => {
+          console.log(originalPromiseResult);
+          // console.log(originalPromiseResult.data);
+          for (let service of originalPromiseResult.data.services) {
+            const result = await dispatch(
+              fetchGetProductsByService(service.service.id)
+            )
+              .then(unwrapResult)
+              .then((originalPromiseResult) => {
+                if (originalPromiseResult.status == "SUCCESS") {
+                  products[service.service.id] =
+                    originalPromiseResult.data.items;
+                  setProducts(products);
+                }
+              });
+          }
           setBooking(originalPromiseResult.data);
           // handle result here
         })
@@ -184,6 +200,14 @@ const BookingDetail = () => {
                                 {service?.service?.title} X {service?.amount}
                               </h5>
                               {/* product render here */}
+                              <ul style={{ listStyle: "revert" }}>
+                                {products[service.service.id] &&
+                                  products[service.service.id].map(
+                                    (product) => {
+                                      return <li>{product.name}</li>;
+                                    }
+                                  )}
+                              </ul>
                             </div>
                           </li>
                         );

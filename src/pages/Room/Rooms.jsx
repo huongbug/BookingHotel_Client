@@ -17,11 +17,13 @@ import {
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Rooms = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   let checkValidTime = (dayStart, dayEnd) => {
     return (
@@ -39,9 +41,13 @@ const Rooms = () => {
       )
         .then(unwrapResult)
         .then((originalPromiseResult) => {
-          setRooms(originalPromiseResult.data.items);
-          console.log(originalPromiseResult.data.items);
-          console.log(rooms);
+          if (originalPromiseResult.status == "SUCCESS") {
+            setRooms(originalPromiseResult.data.items);
+            setPageTotal(originalPromiseResult.data.meta.totalPages);
+            console.log(originalPromiseResult);
+          } else {
+            Swal.fire("Lỗi Server", "", "error");
+          }
           // handle result here
         })
         .catch((rejectedValueOrSerializedError) => {
@@ -204,16 +210,18 @@ const Rooms = () => {
                     <i className="fa fa-long-arrow-left" /> Prev
                   </a>
                 )}
-                <a href="#">{pageNum}</a>
-                <a
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPageNum(pageNum + 1);
-                  }}
-                  href="#"
-                >
-                  Next <i className="fa fa-long-arrow-right" />
-                </a>
+                <Link to="/rooms">{pageNum}</Link>
+                {pageTotal && pageNum != pageTotal && (
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPageNum(pageNum + 1);
+                    }}
+                    href="#"
+                  >
+                    Next <i className="fa fa-long-arrow-right" />
+                  </a>
+                )}
               </div>
             </div>
           </div>

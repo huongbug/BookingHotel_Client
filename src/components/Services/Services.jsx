@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 const Services = ({ serviceCallBack }) => {
   const dispatch = useDispatch();
   const [services, setServices] = useState([]);
+  const [html, setHtml] = useState("");
   useEffect(() => {
     (async () => {
       const result = await dispatch(fetchGetHotelServices())
@@ -65,35 +66,36 @@ const Services = ({ serviceCallBack }) => {
                     )
                       .then(unwrapResult)
                       .then((originalPromiseResult) => {
-                        Swal.fire({
-                          title: "Danh sách sản phẩm",
-                          html: `
-                            <ul>
-                              <li style="display: flex; margin-bottom: 12px;">
-                                <img style="width: 40%" src=${"https://res.cloudinary.com/ds18kbgr2/image/upload/v1681750227/hcs8nwyejqtbputrnzis.jpg"}>
-                                <h3 style="margin-left: 12px">Cafe</h3>
-                              </li>
-                              <li style="display: flex; margin-bottom: 12px;">
-                                <img style="width: 40%" src=${"https://file.hstatic.net/1000135323/file/tra_sua_ngon_0e87236e4d7442fb826c502798ec6f7e_1024x1024.jpg"}>
-                                <h3 style="margin-left: 12px">Trà sữa</h3>
-                              </li>
-                              <li style="display: flex; margin-bottom: 12px;">
-                                <img style="width: 40%" src=${"https://product.hstatic.net/200000140863/product/68.tra_dao_57af0e82545d44e0b421fe6e0051e4b5_1024x1024.png"}>
-                                <h3 style="margin-left: 12px">Trà đào</h3>
-                            </li>
-                            </ul>
-                          `,
-                          showClass: {
-                            popup: "animate__animated animate__fadeInDown",
-                          },
-                          hideClass: {
-                            popup: "animate__animated animate__fadeOutUp",
-                          },
-                        });
                         if (originalPromiseResult.status == "SUCCESS") {
                           console.log(originalPromiseResult);
                           let products = originalPromiseResult.data.items;
-                        } else {
+                          let html = `
+                            <ul>
+                          `;
+                          html += products.map((item) => {
+                            return `
+                            <li style="display: flex; margin-bottom: 12px;">
+                              <img style="width: 180px; height: 180px; object-fit: cover;" src=${item.thumbnail}>
+                              <h3 style="margin-left: 12px">${item.name}</h3>
+                            </li>
+                            `;
+                          });
+
+                          html += `
+                            </ul>
+                          `;
+                          setHtml(html);
+                          Swal.fire({
+                            title: "Danh sách sản phẩm",
+                            html,
+                            showClass: {
+                              popup: "animate__animated animate__fadeInDown",
+                            },
+                            hideClass: {
+                              popup: "animate__animated animate__fadeOutUp",
+                            },
+                          });
+                          console.log(html);
                         }
 
                         // console.log(services);

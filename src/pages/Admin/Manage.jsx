@@ -62,11 +62,13 @@ import {
 } from "../../store/postSlice/postSlice";
 import { fetchGetBookingsAdmin } from "../../store/bookingSlice/bookingSlice";
 import Card from "../../components/Card/Card";
+import BillModal from "../../components/Modal/BillModal";
 
 const UserManage = () => {
   const [iconsActive, setIconsActive] = useState("tab1");
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [pageNum, setPageNum] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   const handleIconsClick = (value) => {
     if (value === iconsActive) {
@@ -87,6 +89,7 @@ const UserManage = () => {
   let { option, optionId } = useParams();
 
   useEffect(() => {
+    setPageNum(1);
     (async () => {
       let func;
       if (option == "rooms") {
@@ -115,16 +118,24 @@ const UserManage = () => {
         .then(unwrapResult)
         .then((originalPromiseResult) => {
           console.log(originalPromiseResult);
-          let data = originalPromiseResult.data.items;
-          if (option == "rooms") {
-            data = data.map((item) => {
-              if (item.sale.salePercent) {
-                item["discount"] = item.sale.salePercent + "%";
-              }
-              return item;
-            });
+          if (originalPromiseResult.status == "SUCCESS") {
+            let data = originalPromiseResult.data.items;
+            if (originalPromiseResult.data.meta.totalPages != 0) {
+              setPageTotal(originalPromiseResult.data.meta.totalPages);
+            }
+
+            if (option == "rooms") {
+              data = data.map((item) => {
+                if (item.sale.salePercent) {
+                  item["discount"] = item.sale.salePercent + "%";
+                }
+                return item;
+              });
+            }
+            setData(data);
+          } else {
+            Swal.fire("Lỗi server", "", "error");
           }
-          setData(data);
         })
         .catch((rejectedValueOrSerializedError) => {
           console.log(rejectedValueOrSerializedError);
@@ -186,15 +197,19 @@ const UserManage = () => {
         const result = await dispatch(func)
           .then(unwrapResult)
           .then((originalPromiseResult) => {
-            console.log("delete", originalPromiseResult);
-            Swal.fire("Xóa thành công", "", "success");
-            setTimeout(() => {
-              window.location.href = "/admin/" + option;
-            }, 2000);
+            if (originalPromiseResult.status == "SUCCESS") {
+              // setData(originalPromiseResult.data.items);
+              const newData = data.filter((item) => item.id != id);
+              setData(newData);
+              // console.log(originalPromiseResult.data.items);
+              Swal.fire("Xóa thành công", "", "success");
+            } else {
+              Swal.fire("Lỗi Server", "", "error");
+            }
           })
           .catch((rejectedValueOrSerializedError) => {
             console.log(rejectedValueOrSerializedError);
-            Swal.fire("Có lỗi xảy ra", "", "error");
+            Swal.fire("Lỗi Server", "", "error");
           });
       }
     });
@@ -324,16 +339,18 @@ const UserManage = () => {
                     <i className="fa fa-long-arrow-left" /> Prev
                   </a>
                 )}
-                <a href="#">{pageNum}</a>
-                <a
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPageNum(pageNum + 1);
-                  }}
-                  href="#"
-                >
-                  Next <i className="fa fa-long-arrow-right" />
-                </a>
+                <Link to={"/admin/" + option}>{pageNum}</Link>
+                {pageTotal && pageNum != pageTotal && (
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPageNum(pageNum + 1);
+                    }}
+                    href="#"
+                  >
+                    Next <i className="fa fa-long-arrow-right" />
+                  </a>
+                )}
               </div>
             </div>
           </div>

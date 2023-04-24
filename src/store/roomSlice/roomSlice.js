@@ -14,7 +14,7 @@ export const fetchGetRooms = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -27,7 +27,7 @@ export const fetchGetAvailableRooms = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -40,7 +40,7 @@ export const fetchGetRoom = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -53,7 +53,7 @@ export const fetchRatingByRoomId = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -66,7 +66,7 @@ export const fetchCreateRoom = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );
@@ -79,7 +79,7 @@ export const fetchUpdateRoom = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log(err);
-      return err.response;
+      return err.response.data;
     }
   }
 );

@@ -17,6 +17,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./room.scss";
+import Swal from "sweetalert2";
 
 const Rooms = ({
   expectedCheckIn,
@@ -28,6 +29,7 @@ const Rooms = ({
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const [pageNum, setPageNum] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   // console.log({ expectedCheckIn, expectedCheckOut, num, type });
   const transferDateTimeToTime = (dateTime) => {
@@ -55,8 +57,14 @@ const Rooms = ({
       )
         .then(unwrapResult)
         .then((originalPromiseResult) => {
-          console.log(originalPromiseResult.data.items);
-          setRooms(originalPromiseResult.data.items);
+          if (originalPromiseResult.status == "SUCCESS") {
+            if (originalPromiseResult.data.meta.totalPages != 0) {
+              setPageTotal(originalPromiseResult.data.meta.totalPages);
+            }
+            setRooms(originalPromiseResult.data.items);
+          } else {
+            Swal.fire("Lỗi server", "", "error");
+          }
         })
         .catch((rejectedValueOrSerializedError) => {
           console.log(rejectedValueOrSerializedError);
@@ -217,16 +225,18 @@ const Rooms = ({
                   <i className="fa fa-long-arrow-left" /> Prev
                 </a>
               )}
-              <a href="#">{pageNum}</a>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPageNum(pageNum + 1);
-                }}
-                href="#"
-              >
-                Next <i className="fa fa-long-arrow-right" />
-              </a>
+              <Link to="/booking">{pageNum}</Link>
+              {pageTotal && pageNum != pageTotal && (
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPageNum(pageNum + 1);
+                  }}
+                  href="#"
+                >
+                  Next <i className="fa fa-long-arrow-right" />
+                </a>
+              )}
             </div>
           </div>
         </div>

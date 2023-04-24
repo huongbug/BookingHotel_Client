@@ -63,6 +63,12 @@ class BookingService {
       `${process.env.REACT_APP_API_URL}/api/v1/booking/delete/${bookingId}`
     );
   }
+  async checkoutBookingById(bookingId) {
+    return await this.httpService.request(
+      "POST",
+      `${process.env.REACT_APP_API_URL}/api/v1/booking/check-out/${bookingId}`
+    );
+  }
 }
 
 export default BookingService;
