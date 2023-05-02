@@ -245,9 +245,8 @@ const UserManage = () => {
           .then((originalPromiseResult) => {
             console.log("delete", originalPromiseResult);
             Swal.fire("Phục hồi thành công", "", "success");
-            setTimeout(() => {
-              window.location.href = "/admin/" + option;
-            }, 2000);
+            const newData = data.filter((item) => item.id != id);
+            setData(newData);
           })
           .catch((rejectedValueOrSerializedError) => {
             console.log(rejectedValueOrSerializedError);
@@ -296,7 +295,16 @@ const UserManage = () => {
                     onClick={() => handleIconsClick("tab2")}
                     active={iconsActive === "tab2"}
                   >
-                    <MDBIcon fas icon="trash-alt" /> Trash
+                    {option == "users" && (
+                      <>
+                        <MDBIcon fas icon="lock" /> Lock
+                      </>
+                    )}
+                    {option != "users" && (
+                      <>
+                        <MDBIcon fas icon="trash-alt" /> Trash
+                      </>
+                    )}
                   </MDBTabsLink>
                 </MDBTabsItem>
               </MDBTabs>
