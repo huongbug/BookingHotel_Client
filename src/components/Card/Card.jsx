@@ -32,6 +32,7 @@ const Card = ({
   deleteOption,
   revertOption,
   deleteFlag,
+  callbackKeyWord,
 }) => {
   const dispatch = useDispatch();
   const [displayModal, setDisplayModal] = useState(false);
@@ -81,6 +82,9 @@ const Card = ({
                   <label>
                     {" "}
                     <input
+                      onChange={(e) => {
+                        callbackKeyWord(e.target.value);
+                      }}
                       type="search"
                       className="form-control form-control-sm"
                       placeholder="Search..."
@@ -330,7 +334,7 @@ const Card = ({
                       )}
                       {keys && keys.map((key) => <td>{item[key]}</td>)}
                       {option == "bookings" && (
-                        <th>{item && item.createdBy?.firstName}</th>
+                        <th>{item && item.user?.email}</th>
                       )}
 
                       <td
