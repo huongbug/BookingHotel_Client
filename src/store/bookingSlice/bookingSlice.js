@@ -21,9 +21,9 @@ export const fetchGetBookings = createAsyncThunk(
 
 export const fetchGetBookingsAdmin = createAsyncThunk(
   "/bookings",
-  async (thunkAPI) => {
+  async (options, thunkAPI) => {
     try {
-      const response = await bookingService.getBookingsAdmin();
+      const response = await bookingService.getBookingsAdmin(options);
       return response.data;
     } catch (err) {
       console.log(err);
