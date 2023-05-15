@@ -56,7 +56,7 @@ const BillModal = ({
             style={{ height: "600px", overflowX: "scroll" }}
           >
             <button
-              style={{ color: "black", fontSize: "30px" }}
+              style={{ color: "black", fontSize: "30px", zIndex: "10" }}
               type="button"
               className="close"
               data-dismiss="modal"

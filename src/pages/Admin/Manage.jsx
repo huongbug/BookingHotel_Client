@@ -92,9 +92,14 @@ const UserManage = () => {
   const [keys, setKeys] = useState([]);
   const [data, setData] = useState([]);
   let { option, optionId } = useParams();
+  const [checkOption, setCheckOption] = useState(option);
 
   useEffect(() => {
     console.log(keyword);
+    if (checkOption != option) {
+      setPageNum(1);
+      setCheckOption(option);
+    }
     (async () => {
       let func;
       if (option == "rooms") {

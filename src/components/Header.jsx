@@ -27,8 +27,8 @@ const Header = () => {
                   <i className="fa fa-phone" /> 0-842343
                 </li>
                 <li>
-                  <i className="fa fa-envelope" /> thanhhuonghotelluxury
-                  @gmail.com
+                  <i className="fa fa-envelope" />{" "}
+                  thanhhuonghotelluxury@gmail.com
                 </li>
               </ul>
             </div>
