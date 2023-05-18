@@ -29,7 +29,7 @@ export const lineOptions = {
     },
     title: {
       display: true,
-      text: "Chart.js Line Chart",
+      text: "Biểu đồ thống kê doanh thu khách sạn",
     },
   },
 };
@@ -39,7 +39,7 @@ export const lineData = {
   labels,
   datasets: [
     {
-      label: "Dataset 1",
+      label: "Doanh thu",
       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
       borderColor: "#EA7C31",
       backgroundColor: "#EA7C31",

@@ -10,31 +10,30 @@ const Introduction = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="ap-title">
-                <h2>Welcome To Sona.</h2>
+                <h2>Welcome To Thanh Huong Hotel.</h2>
                 <p>
-                  Built in 1910 during the Belle Epoque period, this hotel is
-                  located in the center of Paris, with easy access to the city’s
-                  tourist attractions. It offers tastefully decorated rooms.
+                  Thanh Huong Hotel nơi cung cấp các phòng nghỉ tiện nghi, sang
+                  trọng và các dịch vụ tiện ích cho quý khách hàng khi trải
+                  nghiệm dừng chân tại đây .Định hướng của Thanh Huong Hotel
+                  mong muốn trở thành khách sạn đáng tin cậy đối với khách hàng,
+                  chủ sở hữu, nhân viên và cộng đồng với các dịch vụ tận tình và
+                  chu đáo mang lại sự thư giãn và thoải mái nhất.
                 </p>
               </div>
             </div>
             <div className="col-lg-5 offset-lg-1">
               <ul className="ap-services">
-                <li>
-                  <i className="icon_check" /> 20% Off On Accommodation.
+                <li style={{ listStyleType: "disc" }}>Giảm 20% cho chỗ ở.</li>
+                <li style={{ listStyleType: "disc" }}>
+                  Bữa sáng hàng ngày miễn phí
                 </li>
-                <li>
-                  <i className="icon_check" /> Complimentary Daily Breakfast
-                </li>
-                <li>
-                  <i className="icon_check" /> 3 Pcs Laundry Per Day
-                </li>
-                <li>
-                  <i className="icon_check" /> Free Wifi.
-                </li>
-                <li>
-                  <i className="icon_check" /> Discount 20% On F&amp;B
-                </li>
+                {/* <li>
+                   3 Pcs Laundry Per Day
+                </li> */}
+                <li style={{ listStyleType: "disc" }}>Wifi miễn phí.</li>
+                {/* <li>
+                   Discount 20% On F&amp;B
+                </li> */}
               </ul>
             </div>
           </div>

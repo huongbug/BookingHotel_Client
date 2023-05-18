@@ -62,10 +62,10 @@ const AdminHeader = () => {
                 <i className="me-2" data-feather="user" />
                 My Profile
               </Link>
-              <a className="dropdown-item" href="generalsettings.html">
+              {/* <a className="dropdown-item" href="generalsettings.html">
                 <i className="me-2" data-feather="settings" />
                 Settings
-              </a>
+              </a> */}
               <hr className="m-0" />
               <div
                 className="dropdown-item logout pb-0"

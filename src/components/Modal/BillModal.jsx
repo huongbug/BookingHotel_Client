@@ -73,13 +73,13 @@ const BillModal = ({
                   <div className="card">
                     <div className="card-body p-5" ref={printRef}>
                       <h2>
-                        Hey{" "}
+                        Xin chào{" "}
                         {booking &&
                           Object.keys(booking).length > 0 &&
                           booking.createdBy.firstName}
                         ,
                       </h2>
-                      <p className="fs-sm">This is the receipt for a payment</p>
+                      <p className="fs-sm">Đây là hóa đơn thanh toán của bạn</p>
                       <div className="border-top border-gray-200 pt-4 mt-4">
                         <div className="row">
                           <div className="col-md-6">
@@ -95,7 +95,13 @@ const BillModal = ({
                             <strong>
                               {booking &&
                                 Object.keys(booking).length > 0 &&
-                                booking.checkOut}
+                                booking.checkOut
+                                  .concat(" - ")
+                                  .concat(
+                                    booking.lastModifiedBy.lastName +
+                                      " " +
+                                      booking.lastModifiedBy.firstName
+                                  )}
                             </strong>
                           </div>
                         </div>
@@ -109,8 +115,18 @@ const BillModal = ({
                                 Object.keys(booking).length > 0 &&
                                 booking.createdBy.lastName.concat(
                                   " " + booking.createdBy.firstName
-                                )}
+                                )}{" "}
                             </strong>
+                            {booking &&
+                              Object.keys(booking).length > 0 &&
+                              booking.rooms[0].name}{" "}
+                            -{" "}
+                            {booking &&
+                              Object.keys(booking).length > 0 &&
+                              booking.rooms[0].price.toLocaleString("it-IT", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
                             {/* <p className="fs-sm">
                               989 5th Avenue, New York, 55832
                               <br />
@@ -197,15 +213,12 @@ const BillModal = ({
                           <span>
                             {(booking &&
                               Object.keys(booking).length > 0 &&
-                              booking.surcharges.length > 0 &&
-                              booking.surcharges[0] != null &&
                               booking.surcharges
                                 .reduce((total, item) => {
                                   let sc = 0;
                                   if (item) {
                                     sc = item.roomSurcharge;
                                   }
-                                  console.log(sc);
                                   return total + sc;
                                 }, 0)
                                 .toLocaleString("it-IT", {

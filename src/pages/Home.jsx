@@ -49,7 +49,7 @@ const Home = () => {
       <Header />
       <Slider />
       <About />
-      <Service />
+      {/* <Service /> */}
       <RoomIntroduction rooms={rooms} />
       <Testimonials />
       <Blog posts={posts} />

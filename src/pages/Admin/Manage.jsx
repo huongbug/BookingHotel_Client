@@ -310,7 +310,7 @@ const UserManage = () => {
                         <MDBIcon fas icon="lock" /> Lock
                       </>
                     )}
-                    {option != "users" && (
+                    {option != "users" && option != "bookings" && (
                       <>
                         <MDBIcon fas icon="trash-alt" /> Trash
                       </>

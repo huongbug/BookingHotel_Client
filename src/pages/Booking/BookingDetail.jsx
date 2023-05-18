@@ -39,6 +39,7 @@ const BookingDetail = () => {
               });
           }
           setBooking(originalPromiseResult.data);
+
           // handle result here
         })
         .catch((rejectedValueOrSerializedError) => {
@@ -46,8 +47,6 @@ const BookingDetail = () => {
           // handle result here
         });
     })();
-
-    // return () => {}; // no-op
   }, []);
 
   return (
@@ -59,12 +58,18 @@ const BookingDetail = () => {
             <div class="col-lg-10">
               <div class="mb-5">
                 <h4>
-                  Thank {user && user?.firstName?.concat(" " + user?.lastName)}
+                  Thanks {user && user?.firstName?.concat(" " + user?.lastName)}{" "}
+                  , Đặt phòng của bạn ở Thanh Hương hotel đã được nhận , Chúng
+                  tôi mong rằng bạn sẽ đến check-in đúng giờ theo quy định của
+                  khách sạn và có những trải nghiệm tuyệt vời ở Thanh Hương
+                  hotel. Cảm ơn bạn rất nhiều và hẹn gặp lại !
                 </h4>
-                <h2>Đặt phòng của bạn ở Where đã được nhận</h2>
+                <h2>
+                  Mọi thông tin chi tiết xin liên hệ với hotline: 0325529034
+                </h2>
                 <ul style={{ fontSize: "20px" }}>
-                  <li>Chúng tôi đã ..... </li>
-                  <li>........</li>
+                  {/* <li>Chúng tôi đã ..... </li>
+                  <li>........</li> */}
                 </ul>
               </div>
             </div>
@@ -75,33 +80,9 @@ const BookingDetail = () => {
           <div className="row">
             <div className="col-lg-8">
               <div className="room-details-item">
-                {/* <OwlCarousel
-                  style={{
-                    // position: "absolute",
-                    top: "0",
-                    width: "100%",
-                  }}
-                  className="owl-main hero-slider"
-                  items={1}
-                  loop
-                >
-                  {booking &&
-                    booking.rooms?.[0].medias?.map((media) => {
-                      return (
-                        <div className="item hs-item set-bg">
-                          <img
-                            style={{ height: "250px", width: "100%" }}
-                            src={media.url}
-                            alt=""
-                          />
-                        </div>
-                      );
-                    })}
-                </OwlCarousel> */}
-
                 <div className="rd-text">
                   <div className="rd-title">
-                    <h3>Premium King Room</h3>
+                    <h3> {booking && booking.rooms[0].name}</h3>
                     <div className="rdt-right">
                       <div className="rating">
                         <i className="icon_star" />

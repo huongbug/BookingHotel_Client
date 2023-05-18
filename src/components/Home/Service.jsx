@@ -5,8 +5,8 @@ const Service = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="section-title">
-              <span>What We Do</span>
-              <h2>Discover Our Services</h2>
+              {/* <span>What We Do</span> */}
+              <h2>Khám phá những dịch vụ</h2>
             </div>
           </div>
         </div>

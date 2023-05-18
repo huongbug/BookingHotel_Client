@@ -18,17 +18,17 @@ const Slider = () => {
             <div className="hero-text">
               <h1>Thanh Huong Hotel</h1>
               <p>
-                Here are the best hotel booking sites, including recommendations
-                for international travel and for finding low-priced hotel rooms.
+                Dưới đây là trang web đặt phòng khách sạn tốt nhất, bao gồm các
+                đề xuất về tìm phòng khách sạn giá rẻ và dịch vụ.
               </p>
-              <Link className="primary-btn">Discover Now</Link>
+              <Link className="primary-btn">Khám phá ngay</Link>
               {/* <a href="#">
               </a> */}
             </div>
           </div>
           <div className="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
             <div className="booking-form">
-              <h3>Booking Your Hotel</h3>
+              <h3>Đặt phòng khách sạn của bạn</h3>
               <form action="#">
                 <div className="check-date">
                   <label htmlFor="date-in">Check In:</label>

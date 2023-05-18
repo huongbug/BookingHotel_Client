@@ -10,23 +10,21 @@ const About = () => {
             <div className="about-text">
               <div className="section-title">
                 <span>About Us</span>
-                <h2>
-                  Intercontinental LA <br />
-                  Westlake Hotel
-                </h2>
+                <h2>Thanh Huong Hotel</h2>
               </div>
               <p className="f-para">
-                Sona.com is a leading online accommodation site. We’re
-                passionate about travel. Every day, we inspire and reach
-                millions of travelers across 90 local websites in 41 languages.
+                Thanh Huong Hotel nơi cung cấp các phòng nghỉ tiện nghi, sang
+                trọng và các dịch vụ tiện ích cho quý khách hàng khi trải nghiệm
+                dừng chân tại đây.
               </p>
               <p className="s-para">
-                So when it comes to booking the perfect hotel, vacation rental,
-                resort, apartment, guest house, or tree house, we’ve got you
-                covered.
+                Định hướng của Thanh Huong Hotel mong muốn trở thành khách sạn
+                đáng tin cậy đối với khách hàng, chủ sở hữu, nhân viên và cộng
+                đồng với các dịch vụ tận tình và chu đáo mang lại sự thư giãn và
+                thoải mái nhất.
               </p>
               <a href="#" className="primary-btn about-btn">
-                Read More
+                Đọc thêm
               </a>
             </div>
           </div>

@@ -196,7 +196,7 @@ const Statistic = () => {
                         },
                         title: {
                           display: true,
-                          text: "Statistics TOP 10 rooms",
+                          text: "Top 10 phòng khách sạn",
                         },
                       },
                     }}
