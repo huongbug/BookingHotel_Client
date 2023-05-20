@@ -409,11 +409,18 @@ const Card = ({
                                               "success"
                                             );
                                           } else {
-                                            // Swal.fire(
-                                            //   originalPromiseResult.message,
-                                            //   "",
-                                            //   "error"
-                                            // );
+                                            console.log(
+                                              originalPromiseResult.message[
+                                                item["id"]
+                                              ]
+                                            );
+                                            Swal.fire(
+                                              originalPromiseResult.message[
+                                                item["id"]
+                                              ],
+                                              "",
+                                              "error"
+                                            );
                                           }
                                         })
                                         .catch(

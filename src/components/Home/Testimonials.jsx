@@ -26,11 +26,11 @@ const Testimonials = () => {
             >
               <div className="ts-item">
                 <p>
-                  After a construction project took longer than expected, my
-                  husband, my daughter and I needed a place to stay for a few
-                  nights. As a Chicago resident, we know a lot about our city,
-                  neighborhood and the types of housing options available and
-                  absolutely love our vacation at Sona Hotel.
+                  Khách sạn đã mang đến những trải nghiệm tuyệt vời khi đặt
+                  phòng , các dịch vụ cung cấp khá đầy đủ và hấp dẫn đối với
+                  thực khách. Tôi nghĩ sẽ thuận tiện hơn khi các bạn bổ sung
+                  thêm các chức năng mới hơn nâng cao chất lượng cho khách khi
+                  đặt phòng tại Thanh Huong Hotel!
                 </p>
                 <div className="ti-author">
                   <div className="rating">
@@ -40,17 +40,17 @@ const Testimonials = () => {
                     <i className="icon_star" />
                     <i className="icon_star-half_alt" />
                   </div>
-                  <h5> - Alexander Vasquez</h5>
+                  <h5> - Huong Nguyen</h5>
                 </div>
                 <img src={TestimonialLogo} alt="" />
               </div>
               <div className="ts-item">
                 <p>
-                  After a construction project took longer than expected, my
-                  husband, my daughter and I needed a place to stay for a few
-                  nights. As a Chicago resident, we know a lot about our city,
-                  neighborhood and the types of housing options available and
-                  absolutely love our vacation at Sona Hotel.
+                  Khách sạn đã mang đến những trải nghiệm tuyệt vời khi đặt
+                  phòng , các dịch vụ cung cấp khá đầy đủ và hấp dẫn đối với
+                  thực khách. Tôi nghĩ sẽ thuận tiện hơn khi các bạn bổ sung
+                  thêm các chức năng mới hơn nâng cao chất lượng cho khách khi
+                  đặt phòng tại Thanh Huong Hotel!
                 </p>
                 <div className="ti-author">
                   <div className="rating">
@@ -60,7 +60,7 @@ const Testimonials = () => {
                     <i className="icon_star" />
                     <i className="icon_star-half_alt" />
                   </div>
-                  <h5> - Alexander Vasquez</h5>
+                  <h5> - Huong Nguyen</h5>
                 </div>
                 <img src={TestimonialLogo} alt="" />
               </div>

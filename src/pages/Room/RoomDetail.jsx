@@ -24,6 +24,18 @@ const RoomDetail = () => {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState("");
 
+  let checkValidTime = (dayStart, dayEnd) => {
+    return (
+      new Date(dayStart).getTime() <= Date.now() &&
+      new Date(dayEnd).getTime() >= Date.now()
+    );
+  };
+
+  const d = new Date();
+  const day = d.getDay();
+  const month = d.getMonth();
+  const year = d.getFullYear();
+
   useEffect(() => {
     (async () => {
       const result = await dispatch(fetchGetRoom(roomId))
@@ -166,12 +178,64 @@ const RoomDetail = () => {
                     </div>
                   </div>
                   <h2>
-                    {room &&
-                      room?.price?.toLocaleString("it-IT", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
-                    <span>/Pernight</span>
+                    <div style={{ display: "flex" }}>
+                      <h3
+                        style={{
+                          color: checkValidTime(
+                            room.sale?.dayStart,
+                            room.sale?.dayEnd
+                          )
+                            ? "rgba(0,0,0,.54)"
+                            : "#5892b5",
+                          textDecoration: checkValidTime(
+                            room.sale?.dayStart,
+                            room.sale?.dayEnd
+                          )
+                            ? "line-through"
+                            : "none",
+                        }}
+                      >
+                        {room &&
+                          room?.price?.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                      </h3>
+                      {checkValidTime(
+                        room.sale?.dayStart,
+                        room.sale?.dayEnd
+                      ) && (
+                        <h3 style={{ marginLeft: "12px", color: "#5892b5" }}>
+                          {room &&
+                            (
+                              room.price -
+                              (room.price * room.sale.salePercent) / 100
+                            ).toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                        </h3>
+                      )}
+                    </div>
+                    {room.sale?.salePercent != null &&
+                      checkValidTime(
+                        room.sale?.dayStart,
+                        room.sale?.dayEnd
+                      ) && (
+                        <h4
+                          style={{
+                            position: "absolute",
+                            top: "12px",
+                            right: "12px",
+                            fontSize: "16px",
+                            color: "#ee4d2d",
+                            fontWeight: 400,
+                            zIndex: 1,
+                          }}
+                        >
+                          Giảm giá {room.sale.salePercent} %
+                        </h4>
+                      )}
                   </h2>
                   <table>
                     <tbody>
@@ -265,7 +329,7 @@ const RoomDetail = () => {
                     />
                   </div>
                   <div className="ri-text">
-                    <span>27 Aug 2019</span>
+                    <span>{day + "/" + (month + 1) + "/" + year}</span>
                     <div className="rating">
                       <i className="icon_star" />
                       <i className="icon_star" />
