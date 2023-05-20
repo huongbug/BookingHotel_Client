@@ -32,7 +32,7 @@ const RoomDetail = () => {
   };
 
   const d = new Date();
-  const day = d.getDay();
+  const day = d.getDate();
   const month = d.getMonth();
   const year = d.getFullYear();
 
@@ -226,11 +226,12 @@ const RoomDetail = () => {
                           style={{
                             position: "absolute",
                             top: "12px",
-                            right: "12px",
-                            fontSize: "16px",
-                            color: "#ee4d2d",
-                            fontWeight: 400,
+                            right: "15px",
+                            fontSize: "24px !important",
+                            color: "rgb(88, 146, 181)",
+                            fontWeight: "bold",
                             zIndex: 1,
+                            background: "white",
                           }}
                         >
                           Giảm giá {room.sale.salePercent} %
